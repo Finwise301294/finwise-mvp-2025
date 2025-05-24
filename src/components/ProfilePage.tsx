@@ -42,7 +42,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
           </div>
         </div>
         
-        <button className="p-2">
+        <button onClick={onExploreClick} className="p-2">
           <ChevronRight className="w-6 h-6 text-gray-700" />
         </button>
       </div>
