@@ -41,7 +41,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       icon: "🏡"
     },
     {
-      name: "Retail Rehaby",
+      name: "Retail Rehab",
       symbol: "CB",
       marketCap: "Limit impulse buys",
       price: "View",
