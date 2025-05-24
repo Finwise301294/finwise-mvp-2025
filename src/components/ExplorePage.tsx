@@ -12,7 +12,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
     {
       name: "Launch Coin",
       symbol: "LC",
-      marketCap: "$174.5M MC",
+      logo: "view",
       price: "$0.1745",
       color: "bg-green-500",
       icon: "🚀"
