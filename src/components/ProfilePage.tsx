@@ -61,7 +61,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
               <div className="text-lg opacity-90 mt-2">Buying Power</div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-semibold">$0</div>
+              <div className="text-2xl font-semibold">$250</div>
             </div>
           </div>
           
