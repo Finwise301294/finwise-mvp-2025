@@ -1,13 +1,17 @@
 
+import { useState } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
+import { CoinDetailPage } from './CoinDetailPage';
 
 interface ExplorePageProps {
   onProfileClick: () => void;
 }
 
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
+  const [selectedCoin, setSelectedCoin] = useState<any>(null);
+
   const cryptos = [
     {
       name: "Concert Saving Squad",
@@ -23,7 +27,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "$15.1M MC",
       price: "$0.0151",
       color: "bg-cyan-400",
-      icon: "∞"
+      icon: "∞",
+      volume: "$1.2M"
     },
     {
       name: "Yapper",
@@ -31,15 +36,18 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "$7.3M MC",
       price: "$0.0073",
       color: "bg-pink-400",
-      icon: "😊"
+      icon: "😊",
+      volume: "$800K"
     },
     {
       name: "FITCOIN",
       symbol: "FIT",
       marketCap: "$5.7M MC", 
-      price: "$0.0061",
+      price: "$0.0062",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "☁️"
+      icon: "☁️",
+      volume: "$30.6K",
+      change: "16%"
     },
     {
       name: "CreatorBuddy",
@@ -47,7 +55,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "$4.9M MC",
       price: "$0.0049", 
       color: "bg-orange-500",
-      icon: "📝"
+      icon: "📝",
+      volume: "$650K"
     },
     {
       name: "Giggles",
@@ -55,9 +64,19 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "$3.2M MC",
       price: "$0.0032",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄"
+      icon: "😄",
+      volume: "$420K"
     }
   ];
+
+  if (selectedCoin) {
+    return (
+      <CoinDetailPage 
+        coin={selectedCoin}
+        onBack={() => setSelectedCoin(null)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -98,7 +117,9 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       {/* Crypto List */}
       <div className="px-4 space-y-3">
         {cryptos.map((crypto, index) => (
-          <CryptoItem key={index} {...crypto} />
+          <div key={index} onClick={() => setSelectedCoin(crypto)}>
+            <CryptoItem {...crypto} />
+          </div>
         ))}
       </div>
     </div>

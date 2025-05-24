@@ -1,5 +1,8 @@
 
+import { useState } from 'react';
 import { Settings, ChevronRight, Search } from 'lucide-react';
+import { CashOutPage } from './CashOutPage';
+import { AddCashPage } from './AddCashPage';
 
 interface ProfilePageProps {
   onSettingsClick: () => void;
@@ -7,6 +10,17 @@ interface ProfilePageProps {
 }
 
 export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProps) => {
+  const [showCashOut, setShowCashOut] = useState(false);
+  const [showAddCash, setShowAddCash] = useState(false);
+
+  if (showCashOut) {
+    return <CashOutPage onClose={() => setShowCashOut(false)} />;
+  }
+
+  if (showAddCash) {
+    return <AddCashPage onClose={() => setShowAddCash(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -52,10 +66,16 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
           </div>
           
           <div className="flex space-x-4 mt-6">
-            <button className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm">
+            <button 
+              onClick={() => setShowCashOut(true)}
+              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+            >
               Cash Out
             </button>
-            <button className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm">
+            <button 
+              onClick={() => setShowAddCash(true)}
+              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+            >
               Add Cash
             </button>
           </div>
