@@ -1,62 +1,82 @@
+
+import { useState } from 'react';
 import { Search, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
+import { CoinDetailPage } from './CoinDetailPage';
 
 interface ExplorePageProps {
   onProfileClick: () => void;
 }
 
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
+  const [selectedCoin, setSelectedCoin] = useState<any>(null);
+
   const cryptos = [
     {
       name: "Concert Saving Squad",
       symbol: "LC",
       marketCap: "Save for Taylor Swift Tickets",
-      price: "View",
+      view: "View",
       color: "bg-green-500",
-      icon: "🎤"
+      icon: "🚀"
     },
     {
-      name: "Globetrotter Gang", 
+      name: "Dupe", 
       symbol: "DUPE",
-      marketCap: "Save for group travel",
-      price: "View",
+      marketCap: "$15.1M MC",
+      price: "$0.0151",
       color: "bg-cyan-400",
-      icon: "✈️"
+      icon: "∞",
+      volume: "$1.2M"
     },
     {
-      name: "Upgrade Fund",
+      name: "Yapper",
       symbol: "YAP", 
-      marketCap: "Save for phone upgrade",
-      price: "View",
+      marketCap: "$7.3M MC",
+      price: "$0.0073",
       color: "bg-pink-400",
-      icon: "📱"
+      icon: "😊",
+      volume: "$800K"
     },
     {
-      name: "Rent Ready",
+      name: "FITCOIN",
       symbol: "FIT",
-      marketCap: "Save up for your rent", 
-      price: "View",
+      marketCap: "$5.7M MC", 
+      price: "$0.0062",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "🏡"
+      icon: "☁️",
+      volume: "$30.6K",
+      change: "16%"
     },
     {
-      name: "Retail Rehab",
+      name: "CreatorBuddy",
       symbol: "CB",
-      marketCap: "Limit impulse buys",
-      price: "View",
+      marketCap: "$4.9M MC",
+      price: "$0.0049", 
       color: "bg-orange-500",
-      icon: "🛍️"
+      icon: "📝",
+      volume: "$650K"
     },
     {
-      name: "Almost Adults",
+      name: "Giggles",
       symbol: "GIG",
-      marketCap: " Save for utilities",
-      price: "View",
+      marketCap: "$3.2M MC",
+      price: "$0.0032",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄"
+      icon: "😄",
+      volume: "$420K"
     }
   ];
+
+  if (selectedCoin) {
+    return (
+      <CoinDetailPage 
+        coin={selectedCoin}
+        onBack={() => setSelectedCoin(null)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -97,7 +117,9 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       {/* Crypto List */}
       <div className="px-4 space-y-3">
         {cryptos.map((crypto, index) => (
-          <CryptoItem key={index} {...crypto} />
+          <div key={index} onClick={() => setSelectedCoin(crypto)}>
+            <CryptoItem {...crypto} />
+          </div>
         ))}
       </div>
     </div>
