@@ -72,7 +72,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       {/* User Name and Yield */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Joshua Lei</h2>
-        <p className="text-gray-500 mt-1">My yield: $0</p>
+        <p className="text-gray-500 mt-1">Current yield: 3%</p>
       </div>
 
       {/* Tabs */}
