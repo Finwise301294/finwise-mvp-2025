@@ -17,55 +17,49 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       name: "Concert Saving Squad",
       symbol: "LC",
       marketCap: "Save for Taylor Swift Tickets",
-      view: "View",
+      price: "",
       color: "bg-green-500",
-      icon: "🚀"
+      icon: "🎤"
     },
     {
-      name: "Dupe", 
+      name: "Globetrotter Gang", 
       symbol: "DUPE",
-      marketCap: "$15.1M MC",
-      price: "$0.0151",
+      marketCap: "Save for group travel",
+      price: "",
       color: "bg-cyan-400",
-      icon: "∞",
-      volume: "$1.2M"
+      icon: "✈️"
     },
     {
-      name: "Yapper",
+      name: "Upgrade Fund",
       symbol: "YAP", 
-      marketCap: "$7.3M MC",
-      price: "$0.0073",
+      marketCap: "Save for phone upgrade",
+      price: "",
       color: "bg-pink-400",
-      icon: "😊",
-      volume: "$800K"
+      icon: "📱"
     },
     {
-      name: "FITCOIN",
-      symbol: "FIT",
-      marketCap: "$5.7M MC", 
-      price: "$0.0062",
+      name: "Rent Ready",
+      symbol: "",
+      marketCap: "Save up for your rent", 
+      price: "",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "☁️",
-      volume: "$30.6K",
-      change: "16%"
+      icon: "🏡"
     },
     {
-      name: "CreatorBuddy",
+      name: "Retail Rehab",
       symbol: "CB",
-      marketCap: "$4.9M MC",
-      price: "$0.0049", 
+      marketCap: "Limit impulse buys",
+      price: "",
       color: "bg-orange-500",
-      icon: "📝",
-      volume: "$650K"
+      icon: "🛍️"
     },
     {
-      name: "Giggles",
+      name: "Almost Adults",
       symbol: "GIG",
-      marketCap: "$3.2M MC",
-      price: "$0.0032",
+      marketCap: " Save for utilities",
+      price: "",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄",
-      volume: "$420K"
+      icon: "😄"
     }
   ];
 
