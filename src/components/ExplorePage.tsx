@@ -10,10 +10,10 @@ interface ExplorePageProps {
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const cryptos = [
     {
-      name: "Launch Coin",
+      name: "Concert Saving Squad",
       symbol: "LC",
-      logo: "view",
-      price: "$0.1745",
+      marketCap: "Save for Taylor Swift Tickets",
+      view: "View",
       color: "bg-green-500",
       icon: "🚀"
     },
