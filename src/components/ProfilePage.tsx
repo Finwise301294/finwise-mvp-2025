@@ -57,7 +57,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
         <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-5xl font-bold">$0</div>
+              <div className="text-5xl font-bold">$200</div>
               <div className="text-lg opacity-90 mt-2">Buying Power</div>
             </div>
             <div className="text-right">
