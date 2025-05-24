@@ -1,4 +1,3 @@
-
 import { Search, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
@@ -29,7 +28,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       name: "Upgrade Fund",
       symbol: "YAP", 
       marketCap: "Save for phone upgrade",
-      price: "View",,
+      price: "View",
       color: "bg-pink-400",
       icon: "📱"
     },
