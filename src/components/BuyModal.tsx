@@ -8,6 +8,7 @@ interface BuyModalProps {
     symbol: string;
     icon: string;
     color: string;
+    marketCap?: string;
   };
   onClose: () => void;
 }
@@ -23,7 +24,31 @@ export const BuyModal = ({ coin, onClose }: BuyModalProps) => {
   };
 
   const handleSlide = () => {
+    if (!selectedAmount) return;
+    
     setIsSliding(true);
+    
+    // Save to localStorage
+    const existingHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const newHolding = {
+      name: coin.name,
+      symbol: coin.symbol,
+      marketCap: coin.marketCap || 'Investment holding',
+      price: `$${selectedAmount}`,
+      color: coin.color,
+      icon: coin.icon
+    };
+    
+    // Check if already exists, if so update the price, otherwise add new
+    const existingIndex = existingHoldings.findIndex((h: any) => h.symbol === coin.symbol);
+    if (existingIndex >= 0) {
+      existingHoldings[existingIndex] = newHolding;
+    } else {
+      existingHoldings.push(newHolding);
+    }
+    
+    localStorage.setItem('userHoldings', JSON.stringify(existingHoldings));
+    
     // Simulate slide action
     setTimeout(() => {
       setIsSliding(false);
