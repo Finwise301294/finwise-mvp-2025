@@ -69,55 +69,17 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
         </button>
       </div>
 
-      {/* User Name */}
+      {/* User Name and Yield */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Joshua Lei</h2>
+        <p className="text-gray-500 mt-1">My yield: $0</p>
       </div>
-
-      {/* Buying Power Card - Commented Out */}
-      {/* 
-      <div className="mx-4 mb-8">
-        <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="text-5xl font-bold">$0</div>
-              <div className="text-lg opacity-90 mt-2">Buying Power</div>
-            </div>
-            <div className="text-right">
-              <div className="text-2xl font-semibold">$0</div>
-            </div>
-          </div>
-          
-          <div className="flex space-x-4 mt-6">
-            <button 
-              onClick={() => setShowCashOut(true)}
-              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
-            >
-              Cash Out
-            </button>
-            <button 
-              onClick={() => setShowAddCash(true)}
-              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
-            >
-              Add Cash
-            </button>
-          </div>
-          
-          <div className="text-center mt-4 text-sm opacity-75">
-            Stored in Solana. Amount may fluctuate.
-          </div>
-        </div>
-      </div>
-      */}
 
       {/* Tabs */}
       <div className="px-4 mb-6">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
-            Holdings
-          </button>
-          <button className="text-lg font-medium text-gray-400">
-            Projects
+            My pods
           </button>
         </div>
       </div>
@@ -154,8 +116,8 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
             <span className="text-2xl text-gray-500">📋</span>
           </div>
           
-          <h3 className="text-xl font-bold text-gray-900 mb-2">No Holdings Yet</h3>
-          <p className="text-gray-500 mb-8">Holdings you own will show up here.</p>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">No Pods Yet</h3>
+          <p className="text-gray-500 mb-8">Pods you join will show up here.</p>
           
           <button 
             onClick={onExploreClick}

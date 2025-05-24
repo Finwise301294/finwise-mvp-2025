@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
-import { Search, ChevronRight } from 'lucide-react';
+import { Plus, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
 import { CoinDetailPage } from './CoinDetailPage';
+import { CreatePodPage } from './CreatePodPage';
 
 interface ExplorePageProps {
   onProfileClick: () => void;
@@ -11,6 +12,7 @@ interface ExplorePageProps {
 
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const [selectedCoin, setSelectedCoin] = useState<any>(null);
+  const [showCreatePod, setShowCreatePod] = useState(false);
 
   const cryptos = [
     {
@@ -72,6 +74,12 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
     );
   }
 
+  if (showCreatePod) {
+    return (
+      <CreatePodPage onBack={() => setShowCreatePod(false)} />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -86,8 +94,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         
         <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
         
-        <button className="p-2">
-          <Search className="w-6 h-6 text-gray-700" />
+        <button onClick={() => setShowCreatePod(true)} className="p-2">
+          <Plus className="w-6 h-6 text-gray-700" />
         </button>
       </div>
 
@@ -100,10 +108,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <div className="px-4 mb-4">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
-            Verified
-          </button>
-          <button className="text-lg font-medium text-gray-400">
-            New
+            Pods
           </button>
         </div>
       </div>
