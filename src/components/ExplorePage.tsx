@@ -1,10 +1,11 @@
 
 import { useState, useEffect } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { CoinDetailPage } from './CoinDetailPage';
 import { CreatePodPage } from './CreatePodPage';
 import { StreakModal } from './StreakModal';
+import { GoalsSearchModal } from './GoalsSearchModal';
 
 interface ExplorePageProps {
   onProfileClick: () => void;
@@ -14,6 +15,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const [selectedCoin, setSelectedCoin] = useState<any>(null);
   const [showCreatePod, setShowCreatePod] = useState(false);
   const [showStreakModal, setShowStreakModal] = useState(false);
+  const [showGoalsSearch, setShowGoalsSearch] = useState(false);
   const [allPods, setAllPods] = useState<any[]>([]);
 
   const defaultCryptos = [
@@ -118,15 +120,37 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
         
         <button onClick={() => setShowStreakModal(true)} className="relative">
-          <div className="bg-orange-100 rounded-2xl px-4 py-2 flex items-center space-x-2">
-            <span className="text-xl">🔥</span>
-            <span className="text-orange-600 font-bold text-lg">{currentStreak}</span>
+          <div className="bg-orange-100 rounded-full px-3 py-2 flex items-center space-x-1">
+            <span className="text-lg">🔥</span>
+            <span className="text-orange-600 font-bold text-sm">{currentStreak}</span>
           </div>
         </button>
       </div>
 
+      {/* Goals Today Card */}
+      <div className="px-4 mb-6">
+        <div 
+          className="rounded-3xl p-6 text-white relative overflow-hidden"
+          style={{
+            background: 'radial-gradient(circle at 0% 0%, #79b5fd, #a659ef, #f372b7, #f77518)'
+          }}
+        >
+          <div className="relative z-10">
+            <h2 className="text-xl font-bold mb-2">Goals to Save Today</h2>
+            <p className="text-sm opacity-90 mb-4">What do you want to achieve?</p>
+            <button
+              onClick={() => setShowGoalsSearch(true)}
+              className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center space-x-2 hover:bg-opacity-30 transition-all"
+            >
+              <Search className="w-5 h-5" />
+              <span>Search your goals</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Tabs */}
-      <div className="px-4 mb-4 mt-6">
+      <div className="px-4 mb-4">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
             Goals
@@ -143,17 +167,21 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         ))}
       </div>
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button - Changed to black */}
       <button
         onClick={() => setShowCreatePod(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors z-50"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-black rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors z-50"
       >
         <Plus className="w-6 h-6 text-white" />
       </button>
 
-      {/* Streak Modal */}
+      {/* Modals */}
       {showStreakModal && (
         <StreakModal onClose={() => setShowStreakModal(false)} />
+      )}
+
+      {showGoalsSearch && (
+        <GoalsSearchModal onClose={() => setShowGoalsSearch(false)} />
       )}
     </div>
   );

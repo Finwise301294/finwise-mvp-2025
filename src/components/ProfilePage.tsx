@@ -7,6 +7,7 @@ import { HoldingDetailPage } from './HoldingDetailPage';
 import { DiscountsCard } from './DiscountsCard';
 import { DiscountsPage } from './DiscountsPage';
 import { SettingsPage } from './SettingsPage';
+import { CryptoItem } from './CryptoItem';
 
 interface ProfilePageProps {
   onSettingsClick: () => void;
@@ -33,12 +34,16 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
-    // Clear user data on page load/reload for testing
-    localStorage.removeItem('userHoldings');
+    // Load user holdings from localStorage
+    const userHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    setHoldings(userHoldings);
     
-    // Reset holdings and total savings
-    setHoldings([]);
-    setTotalSavings(0);
+    // Calculate total savings from holdings
+    const total = userHoldings.reduce((sum: number, holding: Holding) => {
+      const price = parseFloat(holding.price.replace('$', '')) || 0;
+      return sum + price;
+    }, 0);
+    setTotalSavings(total);
   }, []);
 
   const isGoalReached = (holding: Holding) => {
@@ -124,23 +129,38 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
         </div>
       </div>
 
-      {/* Holdings Content - Always show empty state for testing */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 text-center">
-        <div className="w-16 h-16 bg-gray-300 rounded-2xl flex items-center justify-center mb-4">
-          <span className="text-2xl text-gray-500">📋</span>
+      {/* Holdings Content */}
+      {holdings.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-4 text-center">
+          <div className="w-16 h-16 bg-gray-300 rounded-2xl flex items-center justify-center mb-4">
+            <span className="text-2xl text-gray-500">📋</span>
+          </div>
+          
+          <h3 className="text-xl font-bold text-gray-900 mb-2">No Pods Yet</h3>
+          <p className="text-gray-500 mb-8">Pods you join will show up here.</p>
+          
+          <button 
+            onClick={onExploreClick}
+            className="flex items-center space-x-2 bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold"
+          >
+            <Search className="w-5 h-5" />
+            <span>Explore</span>
+          </button>
         </div>
-        
-        <h3 className="text-xl font-bold text-gray-900 mb-2">No Pods Yet</h3>
-        <p className="text-gray-500 mb-8">Pods you join will show up here.</p>
-        
-        <button 
-          onClick={onExploreClick}
-          className="flex items-center space-x-2 bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold"
-        >
-          <Search className="w-5 h-5" />
-          <span>Explore</span>
-        </button>
-      </div>
+      ) : (
+        <div className="px-4 space-y-3 pb-24">
+          {holdings.map((holding, index) => (
+            <div key={index} onClick={() => setSelectedHolding(holding)} className="relative">
+              <CryptoItem {...holding} />
+              {isGoalReached(holding) && (
+                <div className="absolute top-2 right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                  <Check className="w-4 h-4 text-white" />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
