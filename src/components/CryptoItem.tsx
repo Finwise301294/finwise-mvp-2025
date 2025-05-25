@@ -6,9 +6,11 @@ interface CryptoItemProps {
   price: string;
   color: string;
   icon: string;
+  targetAmount?: string;
+  memberCount?: number;
 }
 
-export const CryptoItem = ({ name, symbol, marketCap, price, color, icon }: CryptoItemProps) => {
+export const CryptoItem = ({ name, symbol, marketCap, price, color, icon, targetAmount, memberCount }: CryptoItemProps) => {
   return (
     <div className="flex items-center justify-between p-4 bg-white rounded-2xl hover:shadow-sm transition-shadow">
       <div className="flex items-center space-x-4">
@@ -18,11 +20,18 @@ export const CryptoItem = ({ name, symbol, marketCap, price, color, icon }: Cryp
         <div>
           <h4 className="font-semibold text-gray-900 text-lg">{name}</h4>
           <p className="text-gray-500 text-sm">{marketCap}</p>
+          {memberCount && (
+            <p className="text-gray-400 text-xs">{memberCount} members</p>
+          )}
         </div>
       </div>
       
       <div className="text-right">
-        <p className="font-semibold text-gray-900 text-lg">{price}</p>
+        {price ? (
+          <p className="font-semibold text-gray-900 text-lg">{price}</p>
+        ) : targetAmount ? (
+          <p className="font-semibold text-gray-900 text-lg">${targetAmount}</p>
+        ) : null}
       </div>
     </div>
   );

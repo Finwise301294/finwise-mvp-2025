@@ -1,38 +1,47 @@
 
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FeedbackModal } from './FeedbackModal';
 
 interface SettingsPageProps {
   onBack: () => void;
 }
 
 export const SettingsPage = ({ onBack }: SettingsPageProps) => {
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
   const menuItems = [
     {
       icon: "𝕏",
       title: "Link your X",
       subtitle: "Claim your fees",
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => {}
     },
     {
       icon: "👤",
       title: "Edit Profile", 
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => {}
     },
     {
       icon: "💳",
       title: "My Wallet",
       subtitle: "FqT9...5aZM",
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => {}
     },
     {
       icon: "⭐",
       title: "Rate Believe",
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => {}
     },
     {
       icon: "💬",
       title: "Support",
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => setShowFeedbackModal(true)
     }
   ];
 
@@ -64,6 +73,7 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
         {menuItems.map((item, index) => (
           <button 
             key={index}
+            onClick={item.onClick}
             className="w-full flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors bg-white"
           >
             <div className="flex items-center space-x-4">
@@ -99,6 +109,11 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
           <button className="underline">Privacy</button>
         </div>
       </div>
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <FeedbackModal onClose={() => setShowFeedbackModal(false)} />
+      )}
     </div>
   );
 };
