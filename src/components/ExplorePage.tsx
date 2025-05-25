@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
@@ -24,8 +23,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "CT",
       marketCap: "Save for your favorite artist",
       price: "",
-      color: "bg-green-500",
-      icon: "🎤",
+      color: "bg-gray-600",
+      icon: "♪",
       memberCount: 12,
       targetAmount: "300"
     },
@@ -34,8 +33,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "DV",
       marketCap: "Save for travel adventures",
       price: "",
-      color: "bg-cyan-400",
-      icon: "✈️",
+      color: "bg-gray-500",
+      icon: "✈",
       memberCount: 8,
       targetAmount: "1200"
     },
@@ -44,7 +43,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "IP", 
       marketCap: "Save for latest tech",
       price: "",
-      color: "bg-pink-400",
+      color: "bg-gray-600",
       icon: "📱",
       memberCount: 15,
       targetAmount: "800"
@@ -54,8 +53,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "EF",
       marketCap: "Build your safety net", 
       price: "",
-      color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "🛡️",
+      color: "bg-gray-700",
+      icon: "⚡",
       memberCount: 23,
       targetAmount: "1000"
     },
@@ -64,7 +63,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "FC",
       marketCap: "Save for your ride",
       price: "",
-      color: "bg-orange-500",
+      color: "bg-gray-500",
       icon: "🚗",
       memberCount: 6,
       targetAmount: "2500"
@@ -74,8 +73,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       symbol: "GS",
       marketCap: "Build the ultimate setup",
       price: "",
-      color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "🎮",
+      color: "bg-gray-600",
+      icon: "⚙",
       memberCount: 19,
       targetAmount: "1500"
     }
