@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
@@ -13,15 +13,17 @@ interface ExplorePageProps {
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const [selectedCoin, setSelectedCoin] = useState<any>(null);
   const [showCreatePod, setShowCreatePod] = useState(false);
+  const [allPods, setAllPods] = useState<any[]>([]);
 
-  const cryptos = [
+  const defaultCryptos = [
     {
       name: "Concert Saving Squad",
       symbol: "LC",
       marketCap: "Save for Taylor Swift Tickets",
       price: "",
       color: "bg-green-500",
-      icon: "🎤"
+      icon: "🎤",
+      memberCount: 12
     },
     {
       name: "Globetrotter Gang", 
@@ -29,7 +31,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save for group travel",
       price: "",
       color: "bg-cyan-400",
-      icon: "✈️"
+      icon: "✈️",
+      memberCount: 8
     },
     {
       name: "Upgrade Fund",
@@ -37,7 +40,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save for phone upgrade",
       price: "",
       color: "bg-pink-400",
-      icon: "📱"
+      icon: "📱",
+      memberCount: 15
     },
     {
       name: "Rent Ready",
@@ -45,7 +49,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save up for your rent", 
       price: "",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "🏡"
+      icon: "🏡",
+      memberCount: 23
     },
     {
       name: "Retail Rehab",
@@ -53,7 +58,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Limit impulse buys",
       price: "",
       color: "bg-orange-500",
-      icon: "🛍️"
+      icon: "🛍️",
+      memberCount: 6
     },
     {
       name: "Almost Adults",
@@ -61,9 +67,16 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: " Save for utilities",
       price: "",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄"
+      icon: "😄",
+      memberCount: 19
     }
   ];
+
+  useEffect(() => {
+    // Load public pods and combine with default pods
+    const publicPods = JSON.parse(localStorage.getItem('publicPods') || '[]');
+    setAllPods([...defaultCryptos, ...publicPods]);
+  }, [showCreatePod]);
 
   if (selectedCoin) {
     return (
@@ -115,7 +128,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
 
       {/* Crypto List */}
       <div className="px-4 space-y-3">
-        {cryptos.map((crypto, index) => (
+        {allPods.map((crypto, index) => (
           <div key={index} onClick={() => setSelectedCoin(crypto)}>
             <CryptoItem {...crypto} />
           </div>

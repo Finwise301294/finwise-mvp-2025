@@ -12,6 +12,7 @@ interface CreatePodPageProps {
 export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
   const [goalName, setGoalName] = useState('');
   const [description, setDescription] = useState('');
+  const [targetAmount, setTargetAmount] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const { toast } = useToast();
   
@@ -23,6 +24,60 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
       title: "Copied!",
       description: "Link copied to clipboard",
     });
+  };
+
+  const handleCreatePod = () => {
+    if (!goalName || !description || !targetAmount) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+      });
+      return;
+    }
+
+    // Generate a random color and icon
+    const colors = ['bg-green-500', 'bg-cyan-400', 'bg-pink-400', 'bg-orange-500', 'bg-blue-500'];
+    const icons = ['🎯', '💰', '🚀', '⭐', '💎', '🏆'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+
+    const newPod = {
+      name: goalName,
+      symbol: goalName.slice(0, 3).toUpperCase(),
+      marketCap: description,
+      price: '',
+      color: randomColor,
+      icon: randomIcon,
+      targetAmount: targetAmount,
+      isPublic: isPublic,
+      memberCount: 1,
+      creator: 'Joshua Lei'
+    };
+
+    // Save to user's created pods
+    const existingCreatedPods = JSON.parse(localStorage.getItem('userCreatedPods') || '[]');
+    existingCreatedPods.push(newPod);
+    localStorage.setItem('userCreatedPods', JSON.stringify(existingCreatedPods));
+
+    // Add to user's holdings
+    const existingHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const holdingPod = { ...newPod, price: '$0' };
+    existingHoldings.push(holdingPod);
+    localStorage.setItem('userHoldings', JSON.stringify(existingHoldings));
+
+    // If public, add to public pods
+    if (isPublic) {
+      const existingPublicPods = JSON.parse(localStorage.getItem('publicPods') || '[]');
+      existingPublicPods.push(newPod);
+      localStorage.setItem('publicPods', JSON.stringify(existingPublicPods));
+    }
+
+    toast({
+      title: "Success!",
+      description: "Pod created successfully",
+    });
+
+    onBack();
   };
 
   return (
@@ -47,6 +102,20 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
             value={goalName}
             onChange={(e) => setGoalName(e.target.value)}
             placeholder="Enter your saving goal..."
+            className="w-full p-4 border border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
+        </div>
+
+        {/* Target Amount */}
+        <div>
+          <label className="block text-lg font-semibold text-gray-900 mb-3">
+            Target Amount
+          </label>
+          <input
+            type="number"
+            value={targetAmount}
+            onChange={(e) => setTargetAmount(e.target.value)}
+            placeholder="Enter target amount..."
             className="w-full p-4 border border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
         </div>
@@ -104,6 +173,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
 
         {/* Create Button */}
         <button
+          onClick={handleCreatePod}
           className="w-full bg-gray-900 text-white py-4 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
         >
           Create Pod

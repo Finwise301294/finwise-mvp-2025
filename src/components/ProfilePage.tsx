@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Settings, ChevronRight, Search } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
@@ -19,17 +19,19 @@ interface Holding {
   icon: string;
 }
 
-// Get holdings from localStorage
-const getHoldings = (): Holding[] => {
-  const stored = localStorage.getItem('userHoldings');
-  return stored ? JSON.parse(stored) : [];
-};
-
 export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProps) => {
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [selectedHolding, setSelectedHolding] = useState<Holding | null>(null);
-  const [holdings] = useState<Holding[]>(getHoldings());
+  const [holdings, setHoldings] = useState<Holding[]>([]);
+
+  useEffect(() => {
+    // Get holdings from localStorage (includes joined pods and created pods)
+    const storedHoldings = localStorage.getItem('userHoldings');
+    if (storedHoldings) {
+      setHoldings(JSON.parse(storedHoldings));
+    }
+  }, []);
 
   if (showCashOut) {
     return <CashOutPage onClose={() => setShowCashOut(false)} />;
@@ -72,7 +74,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       {/* User Name and Yield */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Joshua Lei</h2>
-        <p className="text-gray-500 mt-1">Current yield: 3%</p>
+        <p className="text-gray-500 mt-1">My yield: 3%</p>
       </div>
 
       {/* Tabs */}
