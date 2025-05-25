@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { SuccessModal } from './SuccessModal';
@@ -6,10 +7,9 @@ interface CashOutPageProps {
   onClose: () => void;
   onCashOut?: (amount: number) => void;
   availableAmount?: number;
-  targetAmount?: number; // Add target amount for fixed options
 }
 
-export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0, targetAmount = 500 }: CashOutPageProps) => {
+export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOutPageProps) => {
   const [amount, setAmount] = useState('0');
   const [isSliding, setIsSliding] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -93,19 +93,20 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0, targetAmo
         )}
       </div>
 
-      {/* Fixed Amount Buttons */}
+      {/* Solana and Use Max Buttons */}
       <div className="px-4 mb-8 flex space-x-4">
-        {['100', '250', availableAmount.toString()].map((preset) => (
-          <button
-            key={preset}
-            onClick={() => setAmount(preset)}
-            className={`flex-1 py-3 rounded-2xl font-medium transition-colors ${
-              amount === preset ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-900'
-            }`}
-          >
-            ${preset}
-          </button>
-        ))}
+        <button className="flex items-center space-x-2 bg-gray-100 rounded-2xl px-4 py-3 flex-1">
+          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-xs">≡</span>
+          </div>
+          <span className="text-gray-900 font-medium">Solana</span>
+        </button>
+        <button 
+          onClick={() => setAmount(availableAmount.toString())}
+          className="bg-gray-100 rounded-2xl px-6 py-3"
+        >
+          <span className="text-gray-900 font-medium">Use Max</span>
+        </button>
       </div>
 
       {/* Numeric Keypad */}
@@ -120,9 +121,22 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0, targetAmo
               {num}
             </button>
           ))}
-          <button onClick={handleDecimalClick} className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors">.</button>
-          <button onClick={() => handleNumberClick('0')} className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors">0</button>
-          <button onClick={handleBackspace} className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors flex items-center justify-center">
+          <button
+            onClick={() => handleDecimalClick()}
+            className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors"
+          >
+            .
+          </button>
+          <button
+            onClick={() => handleNumberClick('0')}
+            className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors"
+          >
+            0
+          </button>
+          <button
+            onClick={handleBackspace}
+            className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors flex items-center justify-center"
+          >
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -140,7 +154,9 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0, targetAmo
                 : 'bg-green-500 text-white'
             }`}
           >
-            <div className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${exceedsAvailable || currentAmount === 0 ? 'hidden' : ''}`}>
+            <div className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${
+              exceedsAvailable || currentAmount === 0 ? 'hidden' : ''
+            }`}>
               <div className={`w-12 h-12 bg-green-600 rounded-full transition-transform duration-1000 ${isSliding ? 'translate-x-80' : ''}`}></div>
             </div>
             <span className={`transition-opacity duration-500 ${isSliding ? 'opacity-50' : ''}`}>
@@ -160,4 +176,3 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0, targetAmo
     </div>
   );
 };
-
