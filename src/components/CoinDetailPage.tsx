@@ -134,7 +134,7 @@ export const CoinDetailPage = ({ coin, onBack, onProfileRedirect }: CoinDetailPa
         <button
           onClick={handleJoin}
           disabled={hasJoined}
-          className={`w-full py-4 rounded-3xl font-semibold text-lg ${
+          className={`w-full py-4 rounded-2xl font-semibold text-lg ${
             hasJoined 
               ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
               : 'bg-primary text-white hover:bg-purple-600'
