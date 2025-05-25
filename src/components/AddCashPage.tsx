@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
+import axios from 'axios';
 
 interface AddCashPageProps {
   onClose: () => void;
@@ -38,9 +38,17 @@ export const AddCashPage = ({ onClose }: AddCashPageProps) => {
     setSelectedAmount(preset);
   };
 
-  const handleAdd = () => {
-    // Handle add cash logic
-    onClose();
+  const handleAdd = async () => {
+    try {
+      const response = await axios.post('/cash-in', {
+        userId: 'user123', // Replace with actual user ID
+        amount: parseFloat(amount),
+      });
+      console.log(response.data.message);
+      onClose();
+    } catch (error) {
+      console.error('Error during cash in:', error);
+    }
   };
 
   return (
@@ -134,3 +142,4 @@ export const AddCashPage = ({ onClose }: AddCashPageProps) => {
     </div>
   );
 };
+

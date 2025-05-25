@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import axios from 'axios';
 
 interface CashOutPageProps {
   onClose: () => void;
@@ -33,16 +33,27 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
   };
 
   const handleUseMax = () => {
-    setAmount('0');
+    // Here you would fetch the user's available balance and set it
+    setAmount('1000'); // Example max amount
   };
 
-  const handleSlide = () => {
+  const handleSlide = async () => {
     setIsSliding(true);
-    // Simulate slide action
-    setTimeout(() => {
+    try {
+      const response = await axios.post('/cash-out', {
+        userId: 'user123', // Replace with actual user ID
+        amount: parseFloat(amount),
+      });
+      console.log(response.data.message);
+      // Simulate slide action
+      setTimeout(() => {
+        setIsSliding(false);
+        onClose();
+      }, 1000);
+    } catch (error) {
+      console.error('Error during cash out:', error);
       setIsSliding(false);
-      onClose();
-    }, 1000);
+    }
   };
 
   return (
@@ -64,14 +75,8 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
         <div className="text-6xl font-bold text-gray-900">${amount}</div>
       </div>
 
-      {/* Solana and Use Max Buttons */}
-      <div className="px-4 mb-8 flex space-x-4">
-        <button className="flex items-center space-x-2 bg-gray-100 rounded-2xl px-4 py-3 flex-1">
-          <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-xs">≡</span>
-          </div>
-          <span className="text-gray-900 font-medium">Solana</span>
-        </button>
+      {/* Use Max Button */}
+      <div className="px-4 mb-8">
         <button 
           onClick={handleUseMax}
           className="bg-gray-100 rounded-2xl px-6 py-3"
@@ -133,3 +138,4 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
     </div>
   );
 };
+
