@@ -39,7 +39,6 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
   return (
     <div className="bg-white rounded-2xl p-4 mb-4">
       <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center space-x-2">
-        <Target className="w-5 h-5" />
         <span>Yield Progress</span>
       </h3>
 
