@@ -17,7 +17,6 @@ interface Holding {
   price: string;
   color: string;
   icon: string;
-  targetAmount?: string;
 }
 
 export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProps) => {
@@ -33,12 +32,6 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       setHoldings(JSON.parse(storedHoldings));
     }
   }, []);
-
-  const checkGoalCompletion = (holding: Holding) => {
-    const currentAmount = parseFloat(holding.price.replace('$', '')) || 0;
-    const targetAmount = parseInt(holding.targetAmount || '500');
-    return currentAmount >= targetAmount;
-  };
 
   if (showCashOut) {
     return <CashOutPage onClose={() => setShowCashOut(false)} />;
@@ -96,41 +89,27 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       {/* Holdings Content */}
       {holdings.length > 0 ? (
         <div className="px-4 space-y-3">
-          {holdings.map((holding, index) => {
-            const isGoalCompleted = checkGoalCompletion(holding);
-            
-            return (
-              <div 
-                key={index} 
-                onClick={() => setSelectedHolding(holding)}
-                className="flex items-center justify-between p-4 bg-white rounded-2xl hover:shadow-sm transition-shadow cursor-pointer"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 ${holding.color} rounded-full flex items-center justify-center text-white font-bold relative`}>
-                    <span className="text-lg">{holding.icon}</span>
-                    {isGoalCompleted && (
-                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                        <span className="text-white text-xs">✓</span>
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900 text-lg">{holding.name}</h4>
-                    <p className="text-gray-500 text-sm">
-                      {isGoalCompleted ? '🎉 Goal Reached!' : holding.marketCap}
-                    </p>
-                  </div>
+          {holdings.map((holding, index) => (
+            <div 
+              key={index} 
+              onClick={() => setSelectedHolding(holding)}
+              className="flex items-center justify-between p-4 bg-white rounded-2xl hover:shadow-sm transition-shadow cursor-pointer"
+            >
+              <div className="flex items-center space-x-4">
+                <div className={`w-12 h-12 ${holding.color} rounded-full flex items-center justify-center text-white font-bold`}>
+                  <span className="text-lg">{holding.icon}</span>
                 </div>
-                
-                <div className="text-right">
-                  <p className="font-semibold text-gray-900 text-lg">{holding.price}</p>
-                  {isGoalCompleted && (
-                    <p className="text-green-600 text-sm font-medium">Completed</p>
-                  )}
+                <div>
+                  <h4 className="font-semibold text-gray-900 text-lg">{holding.name}</h4>
+                  <p className="text-gray-500 text-sm">{holding.marketCap}</p>
                 </div>
               </div>
-            );
-          })}
+              
+              <div className="text-right">
+                <p className="font-semibold text-gray-900 text-lg">{holding.price}</p>
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         /* No Holdings State */
