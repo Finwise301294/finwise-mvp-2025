@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
@@ -165,14 +166,9 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
         </button>
       </div>
 
-      {/* Total Savings Card with Updated Gradient */}
+      {/* Total Savings Card */}
       <div className="mx-4 mb-8">
-        <div 
-          className="rounded-3xl p-6 text-white"
-          style={{
-            background: 'radial-gradient(circle at 0% 0%, #79b5fd, #a659ef, #f372b7, #f77518)'
-          }}
-        >
+        <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
               <div className="text-5xl font-bold">${currentSavings}</div>
