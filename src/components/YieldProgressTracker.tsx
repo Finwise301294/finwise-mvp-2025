@@ -117,7 +117,7 @@ export const YieldProgressTracker = ({
         </div>
 
         {nextUnlock && <div className="mt-3 p-3 rounded-xl bg-emerald-100">
-            <p className="text-sm text-emerald-600">
+            <p className="text-sm text-green-700">
               Unlock {nextUnlock.rate}% yield in {nextUnlock.days} more days!
             </p>
           </div>}
