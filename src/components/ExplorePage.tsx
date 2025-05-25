@@ -116,7 +116,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onProfileClick} className="w-12 h-12 rounded-full overflow-hidden">
           <img 
-            src="/lovable-uploads/e6a90e30-3fad-4ff9-9f59-4896da056c6c.png" 
+            src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
             alt="Profile" 
             className="w-full h-full object-cover"
           />
