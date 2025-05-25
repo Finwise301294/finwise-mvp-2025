@@ -34,10 +34,16 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
-    // Reset holdings and total savings on page load
-    localStorage.setItem('userHoldings', '[]');
-    setHoldings([]);
-    setTotalSavings(0);
+    // Load holdings from localStorage
+    const userHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    setHoldings(userHoldings);
+    
+    // Calculate total savings from holdings
+    const total = userHoldings.reduce((sum: number, holding: Holding) => {
+      const amount = parseFloat(holding.price.replace('$', '')) || 0;
+      return sum + amount;
+    }, 0);
+    setTotalSavings(total);
   }, []);
 
   const isGoalReached = (holding: Holding) => {
