@@ -76,7 +76,7 @@ export const BuyModal = ({ coin, onClose }: BuyModalProps) => {
               onClick={() => handleAmountSelect(amount)}
               className={`py-6 rounded-2xl font-semibold text-lg transition-colors ${
                 selectedAmount === amount
-                  ? 'bg-primary text-white'
+                  ? 'bg-green-500 text-white'
                   : 'bg-gray-100 text-gray-900'
               }`}
             >
@@ -92,12 +92,12 @@ export const BuyModal = ({ coin, onClose }: BuyModalProps) => {
             disabled={isSliding || !selectedAmount}
             className={`w-full py-4 rounded-3xl font-semibold text-lg relative overflow-hidden transition-colors ${
               selectedAmount && !isSliding
-                ? 'bg-primary text-white'
+                ? 'bg-green-500 text-white'
                 : 'bg-gray-300 text-gray-500'
             }`}
           >
             <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-              <div className={`w-12 h-12 bg-purple-600 rounded-full transition-transform duration-1000 ${isSliding ? 'translate-x-80' : ''}`}></div>
+              <div className={`w-12 h-12 bg-green-600 rounded-full transition-transform duration-1000 ${isSliding ? 'translate-x-80' : ''}`}></div>
             </div>
             <span className={`transition-opacity duration-500 ${isSliding ? 'opacity-50' : ''}`}>
               Slide to Buy

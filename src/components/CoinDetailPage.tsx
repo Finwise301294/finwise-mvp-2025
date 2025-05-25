@@ -68,7 +68,7 @@ export const CoinDetailPage = ({ coin, onBack, onProfileRedirect }: CoinDetailPa
   const targetAmount = coin.targetAmount || '500';
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onBack} className="p-2">
@@ -134,10 +134,10 @@ export const CoinDetailPage = ({ coin, onBack, onProfileRedirect }: CoinDetailPa
         <button
           onClick={handleJoin}
           disabled={hasJoined}
-          className={`w-full py-4 rounded-2xl font-semibold text-lg ${
+          className={`w-full py-4 rounded-3xl font-semibold text-lg ${
             hasJoined 
               ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
-              : 'bg-primary text-white hover:bg-purple-600'
+              : 'bg-green-500 text-white hover:bg-green-600'
           }`}
         >
           {hasJoined ? 'Joined' : 'Join'}
