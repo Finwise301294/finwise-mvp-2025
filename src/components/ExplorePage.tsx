@@ -136,7 +136,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
           }}
         >
           <div className="relative z-10">
-            <h2 className="text-xl font-bold mb-2">What do you want to save today?</h2>
+            <h2 className="text-lg font-bold mb-2">What do you want to save today?</h2>
             <button
               onClick={() => setShowGoalsSearch(true)}
               className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl px-6 py-3 flex items-center justify-center space-x-2 hover:bg-opacity-30 transition-all mx-auto"
