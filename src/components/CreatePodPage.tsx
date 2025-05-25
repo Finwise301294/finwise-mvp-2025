@@ -87,7 +87,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
         <button onClick={onBack} className="p-2">
           <ChevronLeft className="w-6 h-6 text-gray-700" />
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">Create Pod</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Create Goal</h1>
         <div className="w-10 h-6"></div>
       </div>
 
