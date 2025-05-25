@@ -4,7 +4,6 @@ import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
 import { ShareModal } from './ShareModal';
-import { PiggyBank } from './PiggyBank';
 import { Progress } from './ui/progress';
 
 interface Holding {
@@ -14,7 +13,6 @@ interface Holding {
   price: string;
   color: string;
   icon: string;
-  targetAmount?: number;
 }
 
 interface HoldingDetailPageProps {
@@ -35,25 +33,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [currentAmount, setCurrentAmount] = useState(() => {
-    const amount = holding.price.replace('$', '');
-    return parseFloat(amount) || 0;
-  });
-
-  const targetAmount = holding.targetAmount || 500;
-
-  const handleCashOut = () => setShowCashOut(true);
-  const handleAddCash = () => setShowAddCash(true);
-
-  const updateAmount = (newAmount: number) => {
-    setCurrentAmount(newAmount);
-    // Update localStorage
-    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
-    const updatedHoldings = holdings.map((h: Holding) => 
-      h.name === holding.name ? { ...h, price: `$${newAmount}` } : h
-    );
-    localStorage.setItem('userHoldings', JSON.stringify(updatedHoldings));
-  };
 
   if (showCashOut) {
     return <CashOutPage onClose={() => setShowCashOut(false)} />;
@@ -62,6 +41,9 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   if (showAddCash) {
     return <AddCashPage onClose={() => setShowAddCash(false)} />;
   }
+
+  // Extract the amount from the price string (remove $ sign)
+  const totalSavings = holding.price.replace('$', '');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -76,13 +58,32 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         </button>
       </div>
 
-      {/* Piggy Bank */}
-      <PiggyBank 
-        currentAmount={currentAmount}
-        targetAmount={targetAmount}
-        onCashOut={handleCashOut}
-        onAddCash={handleAddCash}
-      />
+      {/* Total Savings Card */}
+      <div className="mx-4 mb-8">
+        <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <div className="text-5xl font-bold">${totalSavings}</div>
+              <div className="text-lg opacity-90 mt-2">Total Savings</div>
+            </div>
+          </div>
+          
+          <div className="flex space-x-4 mt-6">
+            <button 
+              onClick={() => setShowCashOut(true)}
+              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+            >
+              Cash Out
+            </button>
+            <button 
+              onClick={() => setShowAddCash(true)}
+              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+            >
+              Add Cash
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Pod Details */}
       <div className="px-4 mb-8">
@@ -93,29 +94,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           <div>
             <h2 className="text-2xl font-bold text-gray-900">{holding.name}</h2>
             <p className="text-gray-500">{holding.marketCap}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* About Section */}
-      <div className="px-4 mb-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">About</h3>
-        <div className="bg-white rounded-2xl p-4">
-          <p className="text-gray-600">{holding.marketCap}. Join this pod to save money together with friends and reach your financial goals through collective motivation and accountability.</p>
-        </div>
-      </div>
-
-      {/* Target Section */}
-      <div className="px-4 mb-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Target</h3>
-        <div className="bg-white rounded-2xl p-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-600">Goal Amount</span>
-            <span className="font-bold text-gray-900">${targetAmount}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Progress</span>
-            <span className="font-bold text-green-600">{Math.round((currentAmount / targetAmount) * 100)}%</span>
           </div>
         </div>
       </div>
