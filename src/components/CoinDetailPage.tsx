@@ -57,6 +57,7 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
   };
 
   const memberCount = coin.memberCount || Math.floor(Math.random() * 20) + 5;
+  const targetAmount = coin.targetAmount || '500';
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -85,6 +86,17 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
         </div>
       </div>
 
+      {/* Target Goal Section */}
+      <div className="px-4 mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Target Goal</h2>
+        <div className="bg-white rounded-2xl p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-gray-600">Goal Amount</span>
+            <span className="text-2xl font-bold text-green-600">${targetAmount}</span>
+          </div>
+        </div>
+      </div>
+
       {/* About Section */}
       <div className="px-4 mb-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">About</h2>
@@ -100,7 +112,7 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img 
-              src="/lovable-uploads/45f0034a-fe81-4807-8a2e-224661fb6eac.png" 
+              src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
               alt="Creator" 
               className="w-full h-full object-cover"
             />

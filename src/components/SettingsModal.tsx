@@ -51,7 +51,7 @@ export const SettingsModal = ({ onClose }: SettingsModalProps) => {
         <div className="text-center px-4 mb-8">
           <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4">
             <img 
-              src="/lovable-uploads/e6a90e30-3fad-4ff9-9f59-4896da056c6c.png" 
+              src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
               alt="Profile" 
               className="w-full h-full object-cover"
             />

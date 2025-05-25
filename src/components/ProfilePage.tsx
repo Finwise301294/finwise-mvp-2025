@@ -63,7 +63,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
         <div className="flex items-center space-x-2">
           <div className="w-12 h-12 rounded-full overflow-hidden relative">
             <img 
-              src="/lovable-uploads/f49c00e3-6b6d-4e5b-83d0-bee1f6cffcc1.png" 
+              src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
               alt="Profile" 
               className="w-full h-full object-cover"
             />
