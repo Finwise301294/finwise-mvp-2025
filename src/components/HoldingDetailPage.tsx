@@ -1,10 +1,13 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
 import { ShareModal } from './ShareModal';
 import { Progress } from './ui/progress';
+import { YieldCard } from './YieldCard';
+import { YieldProgressTracker } from './YieldProgressTracker';
+import { WithdrawalWarningModal } from './WithdrawalWarningModal';
+import { GoalUnlockCelebration } from './GoalUnlockCelebration';
 
 interface Holding {
   name: string;
@@ -35,7 +38,13 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showWithdrawalWarning, setShowWithdrawalWarning] = useState(false);
+  const [showGoalCelebration, setShowGoalCelebration] = useState(false);
   const [currentSavings, setCurrentSavings] = useState(0);
+
+  // Mock yield data - would come from backend in real implementation
+  const [daysLocked, setDaysLocked] = useState(12); // Example: 12 days locked
+  const [yieldEarned, setYieldEarned] = useState(2.45); // Example yield earned
 
   useEffect(() => {
     // Get current savings for this holding
@@ -43,10 +52,26 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
     setCurrentSavings(savings);
   }, [holding.price]);
 
+  const handleCashOutClick = () => {
+    if (yieldEarned > 0 || daysLocked > 0) {
+      setShowWithdrawalWarning(true);
+    } else {
+      setShowCashOut(true);
+    }
+  };
+
+  const handleConfirmCashOut = () => {
+    setShowWithdrawalWarning(false);
+    setShowCashOut(true);
+  };
+
   const handleCashOut = (amount: number) => {
     const newAmount = Math.max(0, currentSavings - amount);
     setCurrentSavings(newAmount);
     updateHoldingInStorage(newAmount);
+    // Reset yield and days when cashing out
+    setYieldEarned(0);
+    setDaysLocked(0);
   };
 
   const handleAddCash = (amount: number) => {
@@ -54,6 +79,11 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
     const newAmount = Math.min(targetAmount, currentSavings + amount);
     setCurrentSavings(newAmount);
     updateHoldingInStorage(newAmount);
+    
+    // Check if goal is reached
+    if (newAmount >= targetAmount && !hasReachedGoal) {
+      setShowGoalCelebration(true);
+    }
   };
 
   const updateHoldingInStorage = (newAmount: number) => {
@@ -88,6 +118,7 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   const targetAmount = parseInt(holding.targetAmount || '500');
   const hasReachedGoal = currentSavings >= targetAmount;
   const leaderboardData = generateLeaderboard(targetAmount);
+  const projectedYield = (targetAmount * 0.06 * (daysLocked + (targetAmount - currentSavings) / 10)) / 365; // Rough calculation
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,6 +131,17 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         <button onClick={() => setShowShareModal(true)} className="p-2">
           <Share2 className="w-6 h-6 text-gray-700" />
         </button>
+      </div>
+
+      {/* Yield Card */}
+      <div className="px-4 mb-6">
+        <YieldCard 
+          currentYield={yieldEarned}
+          projectedYield={projectedYield}
+          daysLocked={daysLocked}
+          daysToGoal={Math.ceil((targetAmount - currentSavings) / 10)} // Rough estimate
+          yieldRate={daysLocked >= 30 ? 6 : daysLocked >= 15 ? 3 : daysLocked >= 8 ? 1 : 0}
+        />
       </div>
 
       {/* Total Savings Card */}
@@ -117,7 +159,7 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           
           <div className="flex space-x-4 mt-6">
             <button 
-              onClick={() => setShowCashOut(true)}
+              onClick={handleCashOutClick}
               disabled={currentSavings === 0}
               className={`flex-1 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm ${
                 currentSavings === 0 
@@ -140,6 +182,16 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Yield Progress Tracker */}
+      <div className="px-4 mb-6">
+        <YieldProgressTracker 
+          daysLocked={daysLocked}
+          targetDays={30}
+          currentAmount={currentSavings}
+          targetAmount={targetAmount}
+        />
       </div>
 
       {/* Pod Details */}
@@ -206,9 +258,27 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         </div>
       </div>
 
+      {/* Modals */}
       {showShareModal && (
         <ShareModal onClose={() => setShowShareModal(false)} />
       )}
+
+      <WithdrawalWarningModal 
+        isOpen={showWithdrawalWarning}
+        onClose={() => setShowWithdrawalWarning(false)}
+        onConfirm={handleConfirmCashOut}
+        currentYield={yieldEarned}
+        penaltyAmount={yieldEarned}
+        daysLocked={daysLocked}
+      />
+
+      <GoalUnlockCelebration 
+        isOpen={showGoalCelebration}
+        onClose={() => setShowGoalCelebration(false)}
+        yieldEarned={yieldEarned}
+        goalAmount={targetAmount}
+        daysLocked={daysLocked}
+      />
     </div>
   );
 };
