@@ -48,7 +48,7 @@ export const ShareModal = ({ onClose }: ShareModalProps) => {
         {/* Copy Button */}
         <button
           onClick={handleCopyLink}
-          className="w-full bg-green-500 text-white py-4 rounded-2xl font-semibold flex items-center justify-center space-x-2 hover:bg-green-600 transition-colors"
+          className="w-full bg-primary text-white py-4 rounded-2xl font-semibold flex items-center justify-center space-x-2 hover:bg-green-600 transition-colors"
         >
           <Copy className="w-5 h-5" />
           <span>Copy Link</span>
