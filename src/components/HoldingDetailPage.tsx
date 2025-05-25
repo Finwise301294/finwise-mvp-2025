@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
@@ -53,7 +54,13 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   }, [holding.price]);
 
   const handleCashOutClick = () => {
-    if (yieldEarned > 0 || daysLocked > 0) {
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const hasReachedGoal = currentSavings >= targetAmount;
+    
+    // Skip warning modal if goal is reached
+    if (hasReachedGoal) {
+      setShowCashOut(true);
+    } else if (yieldEarned > 0 || daysLocked > 0) {
       setShowWithdrawalWarning(true);
     } else {
       setShowCashOut(true);
@@ -188,7 +195,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           currentYield={yieldEarned}
         />
       </div>
-
 
       {/* Target Section */}
       <div className="px-4 mb-6">

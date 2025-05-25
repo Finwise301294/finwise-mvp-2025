@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import { SuccessModal } from './SuccessModal';
@@ -14,10 +15,12 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOut
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleNumberClick = (num: string) => {
-    if (amount === '0') {
-      setAmount(num);
-    } else {
-      setAmount(amount + num);
+    const newAmount = amount === '0' ? num : amount + num;
+    const numericAmount = parseFloat(newAmount);
+    
+    // Prevent entering amount greater than available amount
+    if (numericAmount <= availableAmount) {
+      setAmount(newAmount);
     }
   };
 
@@ -40,8 +43,14 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOut
   };
 
   const handleSlide = () => {
-    setIsSliding(true);
     const cashOutAmount = parseFloat(amount) || 0;
+    
+    // Prevent cash out if amount is greater than available
+    if (cashOutAmount > availableAmount) {
+      return;
+    }
+    
+    setIsSliding(true);
     
     setTimeout(() => {
       setIsSliding(false);
@@ -51,6 +60,9 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOut
       setShowSuccessModal(true);
     }, 1000);
   };
+
+  const currentAmount = parseFloat(amount) || 0;
+  const exceedsAvailable = currentAmount > availableAmount;
 
   const handleSuccessClose = () => {
     setShowSuccessModal(false);
@@ -73,7 +85,12 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOut
 
       {/* Amount Display */}
       <div className="text-center py-12">
-        <div className="text-6xl font-bold text-gray-900">${amount}</div>
+        <div className={`text-6xl font-bold ${exceedsAvailable ? 'text-red-500' : 'text-gray-900'}`}>
+          ${amount}
+        </div>
+        {exceedsAvailable && (
+          <p className="text-red-500 text-sm mt-2">Amount exceeds available balance</p>
+        )}
       </div>
 
       {/* Solana and Use Max Buttons */}
@@ -130,14 +147,20 @@ export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOut
         <div className="relative">
           <button
             onClick={handleSlide}
-            disabled={isSliding}
-            className="w-full bg-green-500 text-white py-4 rounded-3xl font-semibold text-lg relative overflow-hidden"
+            disabled={isSliding || exceedsAvailable || currentAmount === 0}
+            className={`w-full py-4 rounded-3xl font-semibold text-lg relative overflow-hidden ${
+              exceedsAvailable || currentAmount === 0
+                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                : 'bg-green-500 text-white'
+            }`}
           >
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
+            <div className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${
+              exceedsAvailable || currentAmount === 0 ? 'hidden' : ''
+            }`}>
               <div className={`w-12 h-12 bg-green-600 rounded-full transition-transform duration-1000 ${isSliding ? 'translate-x-80' : ''}`}></div>
             </div>
             <span className={`transition-opacity duration-500 ${isSliding ? 'opacity-50' : ''}`}>
-              Slide to Cash Out
+              {exceedsAvailable ? 'Amount Too High' : currentAmount === 0 ? 'Enter Amount' : 'Slide to Cash Out'}
             </span>
           </button>
         </div>
