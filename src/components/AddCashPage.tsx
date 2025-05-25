@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
+import axios from 'axios';
 
 interface AddCashPageProps {
   onClose: () => void;

@@ -14,24 +14,6 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const [selectedCoin, setSelectedCoin] = useState<any>(null);
   const [showCreatePod, setShowCreatePod] = useState(false);
 
-  // Get user holdings to calculate total savings
-  const getUserTotalSavings = () => {
-    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
-    return holdings.reduce((total: number, holding: any) => {
-      const amount = parseFloat(holding.price.replace('$', '')) || 0;
-      return total + amount;
-    }, 0);
-  };
-
-  const totalSavings = getUserTotalSavings();
-
-  // Get public pods and user created pods
-  const getPublicPods = () => {
-    const publicPods = JSON.parse(localStorage.getItem('publicPods') || '[]');
-    const userCreatedPods = JSON.parse(localStorage.getItem('userCreatedPods') || '[]');
-    return [...publicPods, ...userCreatedPods];
-  };
-
   const cryptos = [
     {
       name: "Concert Saving Squad",
@@ -39,8 +21,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save for Taylor Swift Tickets",
       price: "",
       color: "bg-green-500",
-      icon: "🎤",
-      members: 12
+      icon: "🎤"
     },
     {
       name: "Globetrotter Gang", 
@@ -48,8 +29,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save for group travel",
       price: "",
       color: "bg-cyan-400",
-      icon: "✈️",
-      members: 8
+      icon: "✈️"
     },
     {
       name: "Upgrade Fund",
@@ -57,8 +37,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save for phone upgrade",
       price: "",
       color: "bg-pink-400",
-      icon: "📱",
-      members: 15
+      icon: "📱"
     },
     {
       name: "Rent Ready",
@@ -66,8 +45,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Save up for your rent", 
       price: "",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "🏡",
-      members: 6
+      icon: "🏡"
     },
     {
       name: "Retail Rehab",
@@ -75,8 +53,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: "Limit impulse buys",
       price: "",
       color: "bg-orange-500",
-      icon: "🛍️",
-      members: 20
+      icon: "🛍️"
     },
     {
       name: "Almost Adults",
@@ -84,10 +61,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       marketCap: " Save for utilities",
       price: "",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄",
-      members: 10
-    },
-    ...getPublicPods()
+      icon: "😄"
+    }
   ];
 
   if (selectedCoin) {
@@ -117,21 +92,11 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
           />
         </button>
         
-        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
         
         <button onClick={() => setShowCreatePod(true)} className="p-2">
           <Plus className="w-6 h-6 text-gray-700" />
         </button>
-      </div>
-
-      {/* Total Savings Card */}
-      <div className="px-4 mb-6">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 text-white">
-          <div className="text-center">
-            <div className="text-4xl font-bold mb-2">${totalSavings}</div>
-            <div className="text-lg opacity-90">Total Saved</div>
-          </div>
-        </div>
       </div>
 
       {/* Featured Card */}
