@@ -1,33 +1,27 @@
-
 import { useState } from 'react';
 import { X } from 'lucide-react';
-
 interface FeedbackModalProps {
   onClose: () => void;
 }
-
-export const FeedbackModal = ({ onClose }: FeedbackModalProps) => {
+export const FeedbackModal = ({
+  onClose
+}: FeedbackModalProps) => {
   const [feedback, setFeedback] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!feedback.trim()) return;
-
     setIsSubmitting(true);
-    
+
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     // Here you would typically send the feedback to your backend
     console.log('Feedback submitted:', feedback);
-    
     setIsSubmitting(false);
     onClose();
   };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+  return <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-3xl p-6 relative">
         {/* Close Button */}
         <button onClick={onClose} className="absolute top-4 right-4 p-2">
@@ -40,32 +34,15 @@ export const FeedbackModal = ({ onClose }: FeedbackModalProps) => {
 
         {/* Feedback Form */}
         <form onSubmit={handleSubmit}>
-          <textarea
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-            placeholder="Share your feedback, suggestions, or report any issues..."
-            className="w-full h-32 p-4 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
-            required
-          />
+          <textarea value={feedback} onChange={e => setFeedback(e.target.value)} placeholder="Share your feedback, suggestions, or report any issues..." className="w-full h-32 p-4 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" required />
           
           <div className="flex space-x-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-2xl font-semibold hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={!feedback.trim() || isSubmitting}
-              className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-2xl font-semibold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
+            
+            <button type="submit" disabled={!feedback.trim() || isSubmitting} className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-2xl font-semibold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
               {isSubmitting ? 'Sending...' : 'Send Feedback'}
             </button>
           </div>
         </form>
       </div>
-    </div>
-  );
+    </div>;
 };
