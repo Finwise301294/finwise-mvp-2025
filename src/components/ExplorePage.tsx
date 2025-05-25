@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Plus, ChevronRight } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
 import { FeaturedCard } from './FeaturedCard';
+import { TotalSavingsCard } from './TotalSavingsCard';
 import { CoinDetailPage } from './CoinDetailPage';
 import { CreatePodPage } from './CreatePodPage';
 
@@ -105,11 +106,16 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
           />
         </button>
         
-        <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
         
         <button onClick={() => setShowCreatePod(true)} className="p-2">
           <Plus className="w-6 h-6 text-gray-700" />
         </button>
+      </div>
+
+      {/* Total Savings Card */}
+      <div className="px-4 mb-4">
+        <TotalSavingsCard />
       </div>
 
       {/* Featured Card */}

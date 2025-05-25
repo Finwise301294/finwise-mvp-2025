@@ -1,14 +1,17 @@
-
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { SuccessModal } from './SuccessModal';
 
 interface CashOutPageProps {
   onClose: () => void;
+  onCashOut?: (amount: number) => void;
+  availableAmount?: number;
 }
 
-export const CashOutPage = ({ onClose }: CashOutPageProps) => {
+export const CashOutPage = ({ onClose, onCashOut, availableAmount = 0 }: CashOutPageProps) => {
   const [amount, setAmount] = useState('0');
   const [isSliding, setIsSliding] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleNumberClick = (num: string) => {
     if (amount === '0') {
@@ -33,16 +36,25 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
   };
 
   const handleUseMax = () => {
-    setAmount('0');
+    setAmount(availableAmount.toString());
   };
 
   const handleSlide = () => {
     setIsSliding(true);
-    // Simulate slide action
+    const cashOutAmount = parseFloat(amount) || 0;
+    
     setTimeout(() => {
       setIsSliding(false);
-      onClose();
+      if (onCashOut) {
+        onCashOut(cashOutAmount);
+      }
+      setShowSuccessModal(true);
     }, 1000);
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    onClose();
   };
 
   return (
@@ -52,7 +64,7 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
         <div></div>
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">Cash Out</h1>
-          <p className="text-gray-500">$0 Available</p>
+          <p className="text-gray-500">${availableAmount} Available</p>
         </div>
         <button onClick={onClose} className="p-2">
           <X className="w-6 h-6 text-gray-700" />
@@ -73,7 +85,7 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
           <span className="text-gray-900 font-medium">Solana</span>
         </button>
         <button 
-          onClick={handleUseMax}
+          onClick={() => setAmount(availableAmount.toString())}
           className="bg-gray-100 rounded-2xl px-6 py-3"
         >
           <span className="text-gray-900 font-medium">Use Max</span>
@@ -93,7 +105,7 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
             </button>
           ))}
           <button
-            onClick={handleDecimalClick}
+            onClick={() => handleDecimalClick()}
             className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors"
           >
             .
@@ -130,6 +142,14 @@ export const CashOutPage = ({ onClose }: CashOutPageProps) => {
           </button>
         </div>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal 
+          title="Cash Out Successful!"
+          message={`You've successfully cashed out $${amount}`}
+          onClose={handleSuccessClose}
+        />
+      )}
     </div>
   );
 };

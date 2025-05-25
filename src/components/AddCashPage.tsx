@@ -1,14 +1,16 @@
-
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
+import { SuccessModal } from './SuccessModal';
 
 interface AddCashPageProps {
   onClose: () => void;
+  onAddCash?: (amount: number) => void;
 }
 
-export const AddCashPage = ({ onClose }: AddCashPageProps) => {
+export const AddCashPage = ({ onClose, onAddCash }: AddCashPageProps) => {
   const [amount, setAmount] = useState('0');
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleNumberClick = (num: string) => {
     if (amount === '0') {
@@ -39,7 +41,17 @@ export const AddCashPage = ({ onClose }: AddCashPageProps) => {
   };
 
   const handleAdd = () => {
-    // Handle add cash logic
+    const addAmount = parseFloat(amount) || 0;
+    if (onAddCash && addAmount > 0) {
+      onAddCash(addAmount);
+      setShowSuccessModal(true);
+    } else {
+      onClose();
+    }
+  };
+
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
     onClose();
   };
 
@@ -102,7 +114,7 @@ export const AddCashPage = ({ onClose }: AddCashPageProps) => {
             </button>
           ))}
           <button
-            onClick={handleDecimalClick}
+            onClick={() => handleDecimalClick()}
             className="text-3xl font-medium text-gray-900 py-4 hover:bg-gray-100 rounded-2xl transition-colors"
           >
             .
@@ -131,6 +143,14 @@ export const AddCashPage = ({ onClose }: AddCashPageProps) => {
           Add
         </button>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal 
+          title="Cash Added Successfully!"
+          message={`You've added $${amount} to your savings`}
+          onClose={handleSuccessClose}
+        />
+      )}
     </div>
   );
 };

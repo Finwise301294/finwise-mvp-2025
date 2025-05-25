@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
@@ -13,6 +13,7 @@ interface Holding {
   price: string;
   color: string;
   icon: string;
+  targetAmount?: string;
 }
 
 interface HoldingDetailPageProps {
@@ -33,17 +34,54 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [currentSavings, setCurrentSavings] = useState(0);
+
+  useEffect(() => {
+    // Get current savings for this holding
+    const savings = parseFloat(holding.price.replace('$', '')) || 0;
+    setCurrentSavings(savings);
+  }, [holding.price]);
+
+  const handleCashOut = (amount: number) => {
+    const newAmount = Math.max(0, currentSavings - amount);
+    setCurrentSavings(newAmount);
+    updateHoldingInStorage(newAmount);
+  };
+
+  const handleAddCash = (amount: number) => {
+    const newAmount = currentSavings + amount;
+    setCurrentSavings(newAmount);
+    updateHoldingInStorage(newAmount);
+  };
+
+  const updateHoldingInStorage = (newAmount: number) => {
+    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const updatedHoldings = holdings.map((h: any) => 
+      h.symbol === holding.symbol ? { ...h, price: `$${newAmount}` } : h
+    );
+    localStorage.setItem('userHoldings', JSON.stringify(updatedHoldings));
+  };
 
   if (showCashOut) {
-    return <CashOutPage onClose={() => setShowCashOut(false)} />;
+    return (
+      <CashOutPage 
+        onClose={() => setShowCashOut(false)} 
+        onCashOut={handleCashOut}
+        availableAmount={currentSavings}
+      />
+    );
   }
 
   if (showAddCash) {
-    return <AddCashPage onClose={() => setShowAddCash(false)} />;
+    return (
+      <AddCashPage 
+        onClose={() => setShowAddCash(false)} 
+        onAddCash={handleAddCash}
+      />
+    );
   }
 
-  // Extract the amount from the price string (remove $ sign)
-  const totalSavings = holding.price.replace('$', '');
+  const targetAmount = parseInt(holding.targetAmount || '500');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -63,7 +101,7 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-5xl font-bold">${totalSavings}</div>
+              <div className="text-5xl font-bold">${currentSavings}</div>
               <div className="text-lg opacity-90 mt-2">Total Savings</div>
             </div>
           </div>
@@ -93,7 +131,31 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           </div>
           <div>
             <h2 className="text-2xl font-bold text-gray-900">{holding.name}</h2>
-            <p className="text-gray-500">{holding.marketCap}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div className="px-4 mb-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-3">About</h3>
+        <div className="bg-white rounded-2xl p-4">
+          <p className="text-gray-600">{holding.marketCap}</p>
+        </div>
+      </div>
+
+      {/* Target Section */}
+      <div className="px-4 mb-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-3">Target</h3>
+        <div className="bg-white rounded-2xl p-4">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-gray-600">Goal Amount</span>
+            <span className="font-semibold text-gray-900">${targetAmount}</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <Progress value={(currentSavings / targetAmount) * 100} className="flex-1" />
+            <span className="text-sm text-gray-500">
+              {Math.round((currentSavings / targetAmount) * 100)}%
+            </span>
           </div>
         </div>
       </div>
