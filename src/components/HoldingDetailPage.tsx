@@ -127,21 +127,15 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         <button onClick={onBack} className="p-2">
           <ChevronLeft className="w-6 h-6 text-gray-700" />
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">{holding.name}</h1>
+        <div className="flex items-center space-x-3">
+          <div className={`w-8 h-8 ${holding.color} rounded-full flex items-center justify-center text-white font-bold`}>
+            <span className="text-lg">{holding.icon}</span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">{holding.name}</h1>
+        </div>
         <button onClick={() => setShowShareModal(true)} className="p-2">
           <Share2 className="w-6 h-6 text-gray-700" />
         </button>
-      </div>
-
-      {/* Yield Card */}
-      <div className="px-4 mb-6">
-        <YieldCard 
-          currentYield={yieldEarned}
-          projectedYield={projectedYield}
-          daysLocked={daysLocked}
-          daysToGoal={Math.ceil((targetAmount - currentSavings) / 10)} // Rough estimate
-          yieldRate={daysLocked >= 30 ? 6 : daysLocked >= 15 ? 3 : daysLocked >= 8 ? 1 : 0}
-        />
       </div>
 
       {/* Total Savings Card */}
@@ -191,6 +185,7 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           targetDays={30}
           currentAmount={currentSavings}
           targetAmount={targetAmount}
+          currentYield={yieldEarned}
         />
       </div>
 
@@ -203,17 +198,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
           <div>
             <h2 className="text-2xl font-bold text-gray-900">{holding.name}</h2>
           </div>
-        </div>
-      </div>
-
-      {/* About Section */}
-      <div className="px-4 mb-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-3">About</h3>
-        <div className="bg-white rounded-2xl p-4">
-          <p className="text-gray-600 mb-2">{holding.marketCap}</p>
-          <p className="text-sm text-gray-500">
-            This is a {holding.isPublic !== false ? 'public' : 'private'} pod
-          </p>
         </div>
       </div>
 

@@ -6,9 +6,10 @@ interface YieldProgressTrackerProps {
   targetDays: number;
   currentAmount: number;
   targetAmount: number;
+  currentYield: number;
 }
 
-export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, targetAmount }: YieldProgressTrackerProps) => {
+export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, targetAmount, currentYield }: YieldProgressTrackerProps) => {
   const getYieldMilestone = (days: number) => {
     if (days < 8) return { rate: 0, label: 'No Yield', color: 'bg-gray-400' };
     if (days < 15) return { rate: 1, label: 'Basic Yield', color: 'bg-yellow-400' };
@@ -20,11 +21,20 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
   const nextMilestone = getYieldMilestone(daysLocked + 1);
   
   const milestones = [
-    { days: 0, rate: 0, label: 'Start' },
-    { days: 8, rate: 1, label: 'Basic' },
-    { days: 15, rate: 3, label: 'Good' },
-    { days: 30, rate: 6, label: 'Max' }
+    { days: 0, rate: 0, label: 'Start', lockDays: '0 days' },
+    { days: 8, rate: 1, label: 'Basic', lockDays: '8+ days' },
+    { days: 15, rate: 3, label: 'Good', lockDays: '15+ days' },
+    { days: 30, rate: 6, label: 'Max', lockDays: '30+ days' }
   ];
+
+  const getNextUnlock = () => {
+    if (daysLocked < 8) return { days: 8 - daysLocked, rate: 1 };
+    if (daysLocked < 15) return { days: 15 - daysLocked, rate: 3 };
+    if (daysLocked < 30) return { days: 30 - daysLocked, rate: 6 };
+    return null;
+  };
+
+  const nextUnlock = getNextUnlock();
 
   return (
     <div className="bg-white rounded-2xl p-4 mb-4">
@@ -43,6 +53,7 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
               }`}></div>
               <span className="text-xs text-gray-500 mt-1">{milestone.label}</span>
               <span className="text-xs font-bold text-gray-700">{milestone.rate}%</span>
+              <span className="text-xs text-gray-400">{milestone.lockDays}</span>
             </div>
           ))}
         </div>
@@ -64,20 +75,30 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
           <span className="font-bold text-gray-900">{daysLocked}</span>
         </div>
         
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-600">Current Rate</span>
           <span className={`font-bold ${currentMilestone.rate > 0 ? 'text-green-600' : 'text-gray-500'}`}>
             {currentMilestone.rate}% APY
           </span>
         </div>
 
-        {daysLocked < 30 && (
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm text-gray-600">Yield Earned</span>
+          <span className="font-bold text-green-600">${currentYield.toFixed(2)}</span>
+        </div>
+
+        {nextUnlock && (
           <div className="mt-3 p-3 bg-blue-50 rounded-xl">
             <p className="text-sm text-blue-700">
-              {nextMilestone.rate > currentMilestone.rate ? 
-                `Unlock ${nextMilestone.rate}% yield in ${nextMilestone.days - daysLocked} more days!` :
-                'Keep saving to maintain your yield rate!'
-              }
+              Unlock {nextUnlock.rate}% yield in {nextUnlock.days} more days!
+            </p>
+          </div>
+        )}
+
+        {daysLocked >= 30 && (
+          <div className="mt-3 p-3 bg-green-50 rounded-xl">
+            <p className="text-sm text-green-700">
+              You've reached maximum yield rate! 🎉
             </p>
           </div>
         )}
