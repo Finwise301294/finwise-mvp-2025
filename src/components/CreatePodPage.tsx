@@ -81,20 +81,20 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
   };
 
   return (
-    <div className="min-h-screen pb-8 bg-gray-50">
+    <div className="min-h-screen pb-8 bg-neutral-light">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 pt-12">
+      <div className="flex items-center justify-between p-4 pt-12 bg-neutral">
         <button onClick={onBack} className="p-2">
-          <ChevronLeft className="w-6 h-6 text-gray-700" />
+          <ChevronLeft className="w-6 h-6 text-accent" />
         </button>
-        <h1 className="text-2xl font-bold text-gray-900">Create Goal</h1>
+        <h1 className="text-2xl font-bold text-accent">Create Goal</h1>
         <div className="w-10 h-6"></div>
       </div>
 
-      <div className="px-4 space-y-6">
+      <div className="px-4 space-y-6 pt-6">
         {/* Goal Name */}
         <div>
-          <label className="block text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-lg font-semibold text-accent mb-3">
             Name
           </label>
           <input
@@ -102,13 +102,13 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
             value={goalName}
             onChange={(e) => setGoalName(e.target.value)}
             placeholder="Enter your saving goal..."
-            className="w-full p-4 border border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-full p-4 border border-gray-300 rounded-2xl text-lg text-accent placeholder:text-neutral-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-neutral"
           />
         </div>
 
         {/* Target Amount */}
         <div>
-          <label className="block text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-lg font-semibold text-accent mb-3">
             Target Amount
           </label>
           <input
@@ -116,29 +116,29 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
             value={targetAmount}
             onChange={(e) => setTargetAmount(e.target.value)}
             placeholder="How much do you want to save..."
-            className="w-full p-4 border border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-full p-4 border border-gray-300 rounded-2xl text-lg text-accent placeholder:text-neutral-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-neutral"
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="block text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-lg font-semibold text-accent mb-3">
             Description
           </label>
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe your goal briefly..."
-            className="w-full p-4 border border-gray-300 rounded-2xl text-lg min-h-32 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+            className="w-full p-4 border border-gray-300 rounded-2xl text-lg min-h-32 text-accent placeholder:text-neutral-dark focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none bg-neutral"
           />
         </div>
 
         {/* Public/Private Toggle */}
         <div>
-          <div className="flex items-center justify-between p-4 bg-white rounded-2xl">
+          <div className="flex items-center justify-between p-4 bg-neutral rounded-2xl">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Public Pod</h3>
-              <p className="text-gray-500 text-sm">Anyone can discover and join this pod</p>
+              <h3 className="text-lg font-semibold text-accent">Public Pod</h3>
+              <p className="text-neutral-dark text-sm">Anyone can discover and join this pod</p>
             </div>
             <Switch
               checked={isPublic}
@@ -149,7 +149,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
 
         {/* Share Link */}
         <div>
-          <label className="block text-lg font-semibold text-gray-900 mb-3">
+          <label className="block text-lg font-semibold text-accent mb-3">
             Invite Link
           </label>
           <div className="flex items-center space-x-3">
@@ -157,7 +157,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
               type="text"
               value={shareLink}
               readOnly
-              className="flex-1 p-4 border border-gray-300 rounded-2xl bg-gray-50 text-gray-700"
+              className="flex-1 p-4 border border-gray-300 rounded-2xl bg-neutral-light text-neutral-dark"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
         {/* Copy Link Button */}
         <button
           onClick={handleCopyLink}
-          className="w-full bg-green-500 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-2 hover:bg-green-600 transition-colors"
+          className="w-full bg-primary text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-2 hover:bg-purple-600 transition-colors"
         >
           <Copy className="w-5 h-5" />
           <span>Copy Link</span>
@@ -174,7 +174,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
         {/* Create Button */}
         <button
           onClick={handleCreatePod}
-          className="w-full bg-gray-900 text-white py-4 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
+          className="w-full bg-accent text-white py-4 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
         >
           Create Goal
         </button>

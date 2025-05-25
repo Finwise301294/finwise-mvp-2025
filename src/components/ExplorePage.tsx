@@ -106,9 +106,9 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
+    <div className="min-h-screen bg-neutral-light relative">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 pt-12">
+      <div className="flex items-center justify-between p-4 pt-12 bg-neutral">
         <button onClick={onProfileClick} className="w-12 h-12 rounded-full overflow-hidden">
           <img 
             src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
@@ -117,10 +117,10 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
           />
         </button>
         
-        <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
+        <h1 className="text-2xl font-bold text-accent">Explore</h1>
         
         <button onClick={() => setShowStreakModal(true)} className="relative">
-          <div className="bg-orange-100 rounded-full px-3 py-2 flex items-center space-x-1">
+          <div className="bg-neutral-light rounded-full px-3 py-2 flex items-center space-x-1">
             <span className="text-lg">🔥</span>
             <span className="text-orange-600 font-bold text-sm">{currentStreak}</span>
           </div>
@@ -128,7 +128,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       </div>
 
       {/* Goals Today Card - Centered content */}
-      <div className="px-4 mb-6">
+      <div className="px-4 mb-6 bg-neutral pb-6">
         <div 
           className="rounded-3xl p-8 text-white relative overflow-hidden text-center"
           style={{
@@ -152,7 +152,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       {/* Tabs */}
       <div className="px-4 mb-4">
         <div className="flex space-x-8">
-          <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
+          <button className="text-lg font-semibold text-accent border-b-2 border-accent pb-1">
             Goals
           </button>
         </div>
@@ -167,10 +167,10 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         ))}
       </div>
 
-      {/* Floating Action Button - Black */}
+      {/* Floating Action Button - Using new accent color */}
       <button
         onClick={() => setShowCreatePod(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-black rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors z-50"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-accent rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors z-50"
       >
         <Plus className="w-6 h-6 text-white" />
       </button>

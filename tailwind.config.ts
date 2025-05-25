@@ -20,19 +20,19 @@ export default {
 		},
 		extend: {
 			colors: {
+				primary: '#a659ef',     // Purple – main CTA
+				accent: '#121212',      // Black – secondary buttons, strong text
+				success: '#2ecc71',     // Green – financial data only
+				neutral: {
+					light: '#F8F8F8',     // Section background
+					DEFAULT: '#FFFFFF',   // Page background
+					dark: '#6B6B6B',      // Secondary text
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
-				},
-				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
-				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
@@ -40,10 +40,6 @@ export default {
 				muted: {
 					DEFAULT: 'hsl(var(--muted))',
 					foreground: 'hsl(var(--muted-foreground))'
-				},
-				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
