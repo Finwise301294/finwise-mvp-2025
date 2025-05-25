@@ -129,7 +129,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <div className="px-4 mb-4 mt-6">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
-            Pods
+            Goals
           </button>
         </div>
       </div>
