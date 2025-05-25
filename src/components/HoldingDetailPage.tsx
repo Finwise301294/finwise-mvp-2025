@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
@@ -53,7 +54,14 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   }, [holding.price]);
 
   const handleCashOutClick = () => {
-    if (yieldEarned > 0 || daysLocked > 0) {
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const hasReachedGoal = currentSavings >= targetAmount;
+    
+    // If goal is reached, go directly to cash out page
+    if (hasReachedGoal) {
+      setShowCashOut(true);
+    } else if (yieldEarned > 0 || daysLocked > 0) {
+      // Show warning for early withdrawal
       setShowWithdrawalWarning(true);
     } else {
       setShowCashOut(true);
@@ -95,11 +103,16 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   };
 
   if (showCashOut) {
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const hasReachedGoal = currentSavings >= targetAmount;
+    
     return (
       <CashOutPage 
         onClose={() => setShowCashOut(false)} 
         onCashOut={handleCashOut}
         availableAmount={currentSavings}
+        yieldEarned={hasReachedGoal ? yieldEarned : 0}
+        targetAmount={targetAmount}
       />
     );
   }
@@ -138,46 +151,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         </button>
       </div>
 
-      {/* Total Savings Card */}
-      <div className="mx-4 mb-8">
-        <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="text-5xl font-bold">${currentSavings}</div>
-              <div className="text-lg opacity-90 mt-2">Total Savings</div>
-              {hasReachedGoal && (
-                <div className="text-sm opacity-90 mt-1">🎉 Goal Reached!</div>
-              )}
-            </div>
-          </div>
-          
-          <div className="flex space-x-4 mt-6">
-            <button 
-              onClick={handleCashOutClick}
-              disabled={currentSavings === 0}
-              className={`flex-1 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm ${
-                currentSavings === 0 
-                  ? 'bg-white/10 text-white/50 cursor-not-allowed' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`}
-            >
-              Cash Out
-            </button>
-            <button 
-              onClick={() => setShowAddCash(true)}
-              disabled={hasReachedGoal}
-              className={`flex-1 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm ${
-                hasReachedGoal 
-                  ? 'bg-white/10 text-white/50 cursor-not-allowed' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`}
-            >
-              Add Cash
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* Yield Progress Tracker */}
       <div className="px-4 mb-6">
         <YieldProgressTracker 
@@ -189,6 +162,35 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         />
       </div>
 
+      {/* Action Buttons */}
+      <div className="px-4 mb-8">
+        <div className="flex space-x-4">
+          <button 
+            onClick={handleCashOutClick}
+            disabled={currentSavings === 0}
+            className={`flex-1 rounded-2xl py-4 text-lg font-semibold ${
+              currentSavings === 0 
+                ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                : hasReachedGoal
+                ? 'bg-green-500 text-white hover:bg-green-600'
+                : 'bg-red-500 text-white hover:bg-red-600'
+            }`}
+          >
+            {hasReachedGoal ? 'Cash Out (Goal Reached)' : 'Cash Out (Early)'}
+          </button>
+          <button 
+            onClick={() => setShowAddCash(true)}
+            disabled={hasReachedGoal}
+            className={`flex-1 rounded-2xl py-4 text-lg font-semibold ${
+              hasReachedGoal 
+                ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Add Cash
+          </button>
+        </div>
+      </div>
 
       {/* Target Section */}
       <div className="px-4 mb-6">
@@ -204,6 +206,9 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
               {Math.round((currentSavings / targetAmount) * 100)}%
             </span>
           </div>
+          {hasReachedGoal && (
+            <div className="text-green-600 font-semibold mt-2 text-center">🎉 Goal Completed!</div>
+          )}
         </div>
       </div>
 
