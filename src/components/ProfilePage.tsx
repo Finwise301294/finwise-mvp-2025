@@ -33,18 +33,40 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [totalSavings, setTotalSavings] = useState(0);
 
-  useEffect(() => {
-    // Load holdings from localStorage
+  const loadHoldingsAndCalculateTotal = () => {
     const userHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
     setHoldings(userHoldings);
     
-    // Calculate total savings from holdings
+    // Calculate total savings from all holdings
     const total = userHoldings.reduce((sum: number, holding: Holding) => {
       const amount = parseFloat(holding.price.replace('$', '')) || 0;
       return sum + amount;
     }, 0);
     setTotalSavings(total);
+  };
+
+  useEffect(() => {
+    loadHoldingsAndCalculateTotal();
+    
+    // Listen for storage changes to update when other components modify holdings
+    const handleStorageChange = () => {
+      loadHoldingsAndCalculateTotal();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events for same-tab updates
+    window.addEventListener('holdingsUpdated', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('holdingsUpdated', handleStorageChange);
+    };
   }, []);
+
+  const handleHoldingUpdate = () => {
+    loadHoldingsAndCalculateTotal();
+  };
 
   const isGoalReached = (holding: Holding) => {
     const currentAmount = parseFloat(holding.price.replace('$', '')) || 0;
@@ -61,7 +83,16 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   }
 
   if (selectedHolding) {
-    return <HoldingDetailPage holding={selectedHolding} onBack={() => setSelectedHolding(null)} />;
+    return (
+      <HoldingDetailPage 
+        holding={selectedHolding} 
+        onBack={() => {
+          setSelectedHolding(null);
+          handleHoldingUpdate();
+        }}
+        onUpdate={handleHoldingUpdate}
+      />
+    );
   }
 
   if (showDiscounts) {

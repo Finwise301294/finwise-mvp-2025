@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
 import { SuccessModal } from './SuccessModal';
@@ -89,7 +88,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
 
         {/* Scrollable Content */}
         <div className="flex-1 flex flex-col pb-4">
-          {/* Amount Display */}
           <div className="text-center py-8">
             <div className={`text-5xl font-bold ${exceedsLimit ? 'text-red-500' : 'text-gray-900'}`}>
               ${amount}
@@ -99,7 +97,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
             )}
           </div>
 
-          {/* Preset Amount Buttons */}
           <div className="px-4 mb-6 flex space-x-4">
             {['100', '250', maxAllowedAmount.toString()].map((preset) => (
               <button
@@ -116,7 +113,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
             ))}
           </div>
 
-          {/* Debit Card Option */}
           <div className="px-4 mb-6">
             <button className="w-full flex items-center justify-between bg-gray-100 rounded-2xl p-4">
               <div className="flex items-center space-x-3">
@@ -129,7 +125,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
             </button>
           </div>
 
-          {/* Numeric Keypad */}
           <div className="px-8 mb-6 flex-1">
             <div className="grid grid-cols-3 gap-4 text-center max-w-xs mx-auto">
               {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
@@ -162,7 +157,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
             </div>
           </div>
 
-          {/* Slide to Add Cash */}
           <div className="px-4 mt-auto">
             <div className="relative">
               <button

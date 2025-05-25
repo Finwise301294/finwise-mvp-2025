@@ -24,6 +24,7 @@ interface Holding {
 interface HoldingDetailPageProps {
   holding: Holding;
   onBack: () => void;
+  onUpdate?: () => void;
 }
 
 // Mock leaderboard data that reflects progress towards target
@@ -35,7 +36,7 @@ const generateLeaderboard = (targetAmount: number) => [
   { name: "Alex Rodriguez", progress: 33, amount: Math.round(targetAmount * 0.33) },
 ];
 
-export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) => {
+export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPageProps) => {
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -47,11 +48,33 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   const [daysLocked, setDaysLocked] = useState(12); // Example: 12 days locked
   const [yieldEarned, setYieldEarned] = useState(2.45); // Example yield earned
 
+  const updateHoldingInStorage = (newAmount: number) => {
+    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const updatedHoldings = holdings.map((h: any) => 
+      h.symbol === holding.symbol ? { ...h, price: `$${newAmount}` } : h
+    );
+    localStorage.setItem('userHoldings', JSON.stringify(updatedHoldings));
+    
+    // Dispatch custom event to notify other components
+    window.dispatchEvent(new Event('holdingsUpdated'));
+    
+    if (onUpdate) {
+      onUpdate();
+    }
+  };
+
+  const loadCurrentSavings = () => {
+    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const currentHolding = holdings.find((h: any) => h.symbol === holding.symbol);
+    if (currentHolding) {
+      const savings = parseFloat(currentHolding.price.replace('$', '')) || 0;
+      setCurrentSavings(savings);
+    }
+  };
+
   useEffect(() => {
-    // Get current savings for this holding
-    const savings = parseFloat(holding.price.replace('$', '')) || 0;
-    setCurrentSavings(savings);
-  }, [holding.price]);
+    loadCurrentSavings();
+  }, [holding.symbol]);
 
   const handleCashOutClick = () => {
     const targetAmount = parseInt(holding.targetAmount || '500');
@@ -93,18 +116,13 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
     }
   };
 
-  const updateHoldingInStorage = (newAmount: number) => {
-    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
-    const updatedHoldings = holdings.map((h: any) => 
-      h.symbol === holding.symbol ? { ...h, price: `$${newAmount}` } : h
-    );
-    localStorage.setItem('userHoldings', JSON.stringify(updatedHoldings));
-  };
-
   if (showCashOut) {
     return (
       <CashOutPage 
-        onClose={() => setShowCashOut(false)} 
+        onClose={() => {
+          setShowCashOut(false);
+          loadCurrentSavings(); // Refresh data when closing
+        }}
         onCashOut={handleCashOut}
         availableAmount={currentSavings}
       />
@@ -114,7 +132,10 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   if (showAddCash) {
     return (
       <AddCashPage 
-        onClose={() => setShowAddCash(false)} 
+        onClose={() => {
+          setShowAddCash(false);
+          loadCurrentSavings(); // Refresh data when closing
+        }}
         onAddCash={handleAddCash}
         targetAmount={parseInt(holding.targetAmount || '500')}
         currentAmount={currentSavings}
