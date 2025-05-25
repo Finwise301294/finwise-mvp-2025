@@ -4,7 +4,7 @@ import { Settings, ChevronRight, Search, Check } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
 import { HoldingDetailPage } from './HoldingDetailPage';
-import { DiscountsCard } from './DiscountsCard';
+import { DiscountsBadge } from './DiscountsBadge';
 import { DiscountsPage } from './DiscountsPage';
 import { SettingsPage } from './SettingsPage';
 import { CryptoItem } from './CryptoItem';
@@ -34,16 +34,10 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
-    // Load user holdings from localStorage
-    const userHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
-    setHoldings(userHoldings);
-    
-    // Calculate total savings from holdings
-    const total = userHoldings.reduce((sum: number, holding: Holding) => {
-      const price = parseFloat(holding.price.replace('$', '')) || 0;
-      return sum + price;
-    }, 0);
-    setTotalSavings(total);
+    // Reset holdings and total savings on page load
+    localStorage.setItem('userHoldings', '[]');
+    setHoldings([]);
+    setTotalSavings(0);
   }, []);
 
   const isGoalReached = (holding: Holding) => {
@@ -98,14 +92,22 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
         </button>
       </div>
 
-      {/* User Name */}
+      {/* User Name and Discounts Badge */}
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Joshua Lei</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Joshua Lei</h2>
+        <div className="flex justify-center">
+          <DiscountsBadge onDiscountsClick={() => setShowDiscounts(true)} />
+        </div>
       </div>
 
-      {/* Total Savings Card */}
+      {/* Total Savings Card with Gradient */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-r from-blue-400 to-blue-300 rounded-3xl p-6 text-white">
+        <div 
+          className="rounded-3xl p-6 text-white"
+          style={{
+            background: 'radial-gradient(circle at 0% 0%, #79b5fd, #a659ef, #f372b7, #f77518)'
+          }}
+        >
           <div className="flex items-center justify-between">
             <div>
               <div className="text-3xl font-bold">${totalSavings.toFixed(0)}</div>
@@ -113,11 +115,6 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Discounts Card */}
-      <div className="px-4 mb-6">
-        <DiscountsCard onDiscountsClick={() => setShowDiscounts(true)} />
       </div>
 
       {/* Tabs */}

@@ -127,20 +127,20 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         </button>
       </div>
 
-      {/* Goals Today Card */}
+      {/* Goals Today Card - Centered content */}
       <div className="px-4 mb-6">
         <div 
-          className="rounded-3xl p-6 text-white relative overflow-hidden"
+          className="rounded-3xl p-8 text-white relative overflow-hidden text-center"
           style={{
             background: 'radial-gradient(circle at 0% 0%, #79b5fd, #a659ef, #f372b7, #f77518)'
           }}
         >
           <div className="relative z-10">
             <h2 className="text-xl font-bold mb-2">Goals to Save Today</h2>
-            <p className="text-sm opacity-90 mb-4">What do you want to achieve?</p>
+            <p className="text-sm opacity-90 mb-6">What do you want to achieve?</p>
             <button
               onClick={() => setShowGoalsSearch(true)}
-              className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center space-x-2 hover:bg-opacity-30 transition-all"
+              className="bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl px-6 py-3 flex items-center justify-center space-x-2 hover:bg-opacity-30 transition-all mx-auto"
             >
               <Search className="w-5 h-5" />
               <span>Search your goals</span>
@@ -167,7 +167,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         ))}
       </div>
 
-      {/* Floating Action Button - Changed to black */}
+      {/* Floating Action Button - Black */}
       <button
         onClick={() => setShowCreatePod(true)}
         className="fixed bottom-6 right-6 w-14 h-14 bg-black rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors z-50"
