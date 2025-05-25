@@ -19,9 +19,10 @@ interface CoinDetailPageProps {
     isPublic?: boolean;
   };
   onBack: () => void;
+  onProfileRedirect?: () => void;
 }
 
-export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
+export const CoinDetailPage = ({ coin, onBack, onProfileRedirect }: CoinDetailPageProps) => {
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
@@ -54,6 +55,13 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
     
     setHasJoined(true);
     setShowJoinModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowJoinModal(false);
+    if (onProfileRedirect) {
+      onProfileRedirect();
+    }
   };
 
   const memberCount = coin.memberCount || Math.floor(Math.random() * 20) + 5;
@@ -112,7 +120,7 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img 
-              src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
+              src="/lovable-uploads/e6a90e30-3fad-4ff9-9f59-4896da056c6c.png" 
               alt="Creator" 
               className="w-full h-full object-cover"
             />
@@ -143,7 +151,7 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
 
       {/* Modals */}
       {showJoinModal && (
-        <JoinSuccessModal onClose={() => setShowJoinModal(false)} />
+        <JoinSuccessModal onClose={handleModalClose} />
       )}
 
       {showShareModal && (

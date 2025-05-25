@@ -21,58 +21,64 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
 
   const defaultCryptos = [
     {
-      name: "Save for Taylor Swift Tickets",
+      name: "Concert Fund",
       symbol: "LC",
-      marketCap: "Save for Taylor Swift Tickets",
+      marketCap: "Save for concert tickets",
       price: "",
       color: "bg-green-500",
       icon: "🎤",
-      memberCount: 12
+      memberCount: 12,
+      targetAmount: "300"
     },
     {
-      name: "Save for house", 
+      name: "House Down Payment", 
       symbol: "DUPE",
-      marketCap: "Save for group travel",
+      marketCap: "Save for future home",
       price: "",
       color: "bg-cyan-400",
-      icon: "✈️",
-      memberCount: 8
+      icon: "🏠",
+      memberCount: 8,
+      targetAmount: "5000"
     },
     {
-      name: "",
+      name: "Phone Upgrade",
       symbol: "YAP", 
-      marketCap: "Save for phone upgrade",
+      marketCap: "Save for new phone",
       price: "",
       color: "bg-pink-400",
       icon: "📱",
-      memberCount: 15
+      memberCount: 15,
+      targetAmount: "800"
     },
     {
-      name: "Rent Ready",
-      symbol: "",
-      marketCap: "Save up for your rent", 
+      name: "Emergency Fund",
+      symbol: "EF",
+      marketCap: "Build emergency savings", 
       price: "",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
-      icon: "🏡",
-      memberCount: 23
+      icon: "🛡️",
+      memberCount: 23,
+      targetAmount: "1000"
     },
     {
-      name: "Retail Rehab",
+      name: "Travel Adventure",
       symbol: "CB",
-      marketCap: "Limit impulse buys",
+      marketCap: "Save for dream vacation",
       price: "",
       color: "bg-orange-500",
-      icon: "🛍️",
-      memberCount: 6
+      icon: "✈️",
+      memberCount: 6,
+      targetAmount: "1200"
     },
     {
-      name: "Almost Adults",
+      name: "Car Fund",
       symbol: "GIG",
-      marketCap: " Save for utilities",
+      marketCap: "Save for first car",
       price: "",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "😄",
-      memberCount: 19
+      icon: "🚗",
+      memberCount: 19,
+      targetAmount: "2500"
     }
   ];
 
@@ -87,6 +93,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <CoinDetailPage 
         coin={selectedCoin}
         onBack={() => setSelectedCoin(null)}
+        onProfileRedirect={onProfileClick}
       />
     );
   }
@@ -109,7 +116,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onProfileClick} className="w-12 h-12 rounded-full overflow-hidden">
           <img 
-            src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
+            src="/lovable-uploads/e6a90e30-3fad-4ff9-9f59-4896da056c6c.png" 
             alt="Profile" 
             className="w-full h-full object-cover"
           />

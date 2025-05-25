@@ -21,7 +21,6 @@ export const TotalSavingsCard = () => {
           <div className="text-3xl font-bold">${totalSavings.toFixed(0)}</div>
           <div className="text-lg opacity-90 mt-1">Total Saved</div>
         </div>
-        <div className="text-4xl">💰</div>
       </div>
     </div>
   );
