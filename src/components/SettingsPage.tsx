@@ -9,6 +9,7 @@ interface SettingsPageProps {
 
 export const SettingsPage = ({ onBack }: SettingsPageProps) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showSupportModal, setShowSupportModal] = useState(false);
 
   const menuItems = [
     {
@@ -36,7 +37,8 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
     {
       icon: "💬",
       title: "Support",
-      hasChevron: true
+      hasChevron: true,
+      onClick: () => setShowSupportModal(true)
     },
     {
       icon: "📝",
@@ -114,6 +116,11 @@ export const SettingsPage = ({ onBack }: SettingsPageProps) => {
       {/* Feedback Modal */}
       {showFeedbackModal && (
         <FeedbackModal onClose={() => setShowFeedbackModal(false)} />
+      )}
+
+      {/* Support Modal */}
+      {showSupportModal && (
+        <FeedbackModal onClose={() => setShowSupportModal(false)} />
       )}
     </div>
   );

@@ -104,7 +104,7 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
                 onClick={() => handlePresetAmount(preset)}
                 className={`flex-1 py-3 rounded-2xl font-medium transition-colors ${
                   selectedAmount === preset 
-                    ? 'bg-green-500 text-white' 
+                    ? 'bg-primary text-white' 
                     : 'bg-gray-100 text-gray-900'
                 }`}
               >
@@ -165,13 +165,13 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
                 className={`w-full py-4 rounded-3xl font-semibold text-lg relative overflow-hidden ${
                   isSliding || exceedsLimit || currentAmountValue <= 0
                     ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                    : 'bg-green-500 text-white'
+                    : 'bg-primary text-white'
                 }`}
               >
                 <div className={`absolute left-4 top-1/2 transform -translate-y-1/2 transition-transform duration-1000 ${
                   isSliding ? 'translate-x-80' : ''
                 }`}>
-                  <div className="w-12 h-12 bg-green-600 rounded-full"></div>
+                  <div className="w-12 h-12 bg-purple-600 rounded-full"></div>
                 </div>
                 <span className={`transition-opacity duration-500 ${isSliding ? 'opacity-50' : ''}`}>
                   Slide to Add Cash

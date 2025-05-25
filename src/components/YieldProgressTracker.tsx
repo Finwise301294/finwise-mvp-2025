@@ -14,7 +14,7 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
     if (days < 8) return { rate: 0, label: 'No Yield', color: 'bg-gray-400' };
     if (days < 15) return { rate: 1, label: 'Basic Yield', color: 'bg-yellow-400' };
     if (days < 30) return { rate: 3, label: 'Good Yield', color: 'bg-orange-400' };
-    return { rate: 6, label: 'Max Yield', color: 'bg-green-500' };
+    return { rate: 6, label: 'Max Yield', color: 'bg-primary' };
   };
 
   const currentMilestone = getYieldMilestone(daysLocked);
@@ -48,7 +48,7 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
           {milestones.map((milestone, index) => (
             <div key={index} className="flex flex-col items-center">
               <div className={`w-4 h-4 rounded-full ${
-                daysLocked >= milestone.days ? 'bg-green-500' : 'bg-gray-300'
+                daysLocked >= milestone.days ? 'bg-primary' : 'bg-gray-300'
               }`}></div>
               <span className="text-xs text-gray-500 mt-1">{milestone.label}</span>
               <span className="text-xs font-bold text-gray-700">{milestone.rate}%</span>
@@ -58,7 +58,7 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
         </div>
         <div className="absolute top-2 left-0 right-0 h-0.5 bg-gray-200 -z-10">
           <div 
-            className="h-full bg-green-500 transition-all duration-500"
+            className="h-full bg-primary transition-all duration-500"
             style={{ width: `${Math.min((daysLocked / 30) * 100, 100)}%` }}
           ></div>
         </div>
@@ -75,14 +75,14 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
         
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-gray-600">Current Rate</span>
-          <span className={`font-bold ${currentMilestone.rate > 0 ? 'text-green-600' : 'text-gray-500'}`}>
+          <span className={`font-bold ${currentMilestone.rate > 0 ? 'text-success' : 'text-gray-500'}`}>
             {currentMilestone.rate}% APY
           </span>
         </div>
 
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm text-gray-600">Yield Earned</span>
-          <span className="font-bold text-green-600">${currentYield.toFixed(2)}</span>
+          <span className="font-bold text-success">${currentYield.toFixed(2)}</span>
         </div>
 
         {nextUnlock && (
@@ -94,8 +94,8 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
         )}
 
         {daysLocked >= 30 && (
-          <div className="mt-3 p-3 bg-green-50 rounded-xl">
-            <p className="text-sm text-green-700">
+          <div className="mt-3 p-3 bg-purple-50 rounded-xl">
+            <p className="text-sm text-purple-700">
               You've reached maximum yield rate! 🎉
             </p>
           </div>

@@ -26,7 +26,7 @@ export const SuccessModal = ({ title, message, onClose }: SuccessModalProps) => 
         {/* OK Button */}
         <button
           onClick={onClose}
-          className="w-full bg-green-500 text-white py-4 rounded-2xl font-semibold text-lg hover:bg-green-600 transition-colors"
+          className="w-full bg-primary text-white py-4 rounded-2xl font-semibold text-lg hover:bg-purple-600 transition-colors"
         >
           Awesome!
         </button>
