@@ -21,7 +21,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
 
   const defaultCryptos = [
     {
-      name: "Concert Saving Squad",
+      name: "Save for Taylor Swift Tickets",
       symbol: "LC",
       marketCap: "Save for Taylor Swift Tickets",
       price: "",
@@ -30,7 +30,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       memberCount: 12
     },
     {
-      name: "Globetrotter Gang", 
+      name: "Save for house", 
       symbol: "DUPE",
       marketCap: "Save for group travel",
       price: "",
@@ -39,7 +39,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       memberCount: 8
     },
     {
-      name: "Upgrade Fund",
+      name: "",
       symbol: "YAP", 
       marketCap: "Save for phone upgrade",
       price: "",
