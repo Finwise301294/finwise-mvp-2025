@@ -176,7 +176,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
           onClick={handleCreatePod}
           className="w-full bg-gray-900 text-white py-4 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
         >
-          Create Pod
+          Create Goal
         </button>
       </div>
     </div>
