@@ -14,6 +14,7 @@ interface Holding {
   color: string;
   icon: string;
   targetAmount?: string;
+  isPublic?: boolean;
 }
 
 interface HoldingDetailPageProps {
@@ -21,13 +22,13 @@ interface HoldingDetailPageProps {
   onBack: () => void;
 }
 
-// Mock leaderboard data
-const leaderboardData = [
-  { name: "Joshua Lei", progress: 85, amount: "$425" },
-  { name: "Sarah Chen", progress: 72, amount: "$360" },
-  { name: "Mike Johnson", progress: 65, amount: "$325" },
-  { name: "Emma Davis", progress: 48, amount: "$240" },
-  { name: "Alex Rodriguez", progress: 33, amount: "$165" },
+// Mock leaderboard data that reflects progress towards target
+const generateLeaderboard = (targetAmount: number) => [
+  { name: "Joshua Lei", progress: 85, amount: Math.round(targetAmount * 0.85) },
+  { name: "Sarah Chen", progress: 72, amount: Math.round(targetAmount * 0.72) },
+  { name: "Mike Johnson", progress: 65, amount: Math.round(targetAmount * 0.65) },
+  { name: "Emma Davis", progress: 48, amount: Math.round(targetAmount * 0.48) },
+  { name: "Alex Rodriguez", progress: 33, amount: Math.round(targetAmount * 0.33) },
 ];
 
 export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) => {
@@ -49,7 +50,8 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
   };
 
   const handleAddCash = (amount: number) => {
-    const newAmount = currentSavings + amount;
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const newAmount = Math.min(targetAmount, currentSavings + amount);
     setCurrentSavings(newAmount);
     updateHoldingInStorage(newAmount);
   };
@@ -77,11 +79,15 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
       <AddCashPage 
         onClose={() => setShowAddCash(false)} 
         onAddCash={handleAddCash}
+        targetAmount={parseInt(holding.targetAmount || '500')}
+        currentAmount={currentSavings}
       />
     );
   }
 
   const targetAmount = parseInt(holding.targetAmount || '500');
+  const hasReachedGoal = currentSavings >= targetAmount;
+  const leaderboardData = generateLeaderboard(targetAmount);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -103,19 +109,32 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
             <div>
               <div className="text-5xl font-bold">${currentSavings}</div>
               <div className="text-lg opacity-90 mt-2">Total Savings</div>
+              {hasReachedGoal && (
+                <div className="text-sm opacity-90 mt-1">🎉 Goal Reached!</div>
+              )}
             </div>
           </div>
           
           <div className="flex space-x-4 mt-6">
             <button 
               onClick={() => setShowCashOut(true)}
-              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+              disabled={currentSavings === 0}
+              className={`flex-1 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm ${
+                currentSavings === 0 
+                  ? 'bg-white/10 text-white/50 cursor-not-allowed' 
+                  : 'bg-white/20 text-white hover:bg-white/30'
+              }`}
             >
               Cash Out
             </button>
             <button 
               onClick={() => setShowAddCash(true)}
-              className="flex-1 bg-white/20 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm"
+              disabled={hasReachedGoal}
+              className={`flex-1 rounded-2xl py-4 text-lg font-semibold backdrop-blur-sm ${
+                hasReachedGoal 
+                  ? 'bg-white/10 text-white/50 cursor-not-allowed' 
+                  : 'bg-white/20 text-white hover:bg-white/30'
+              }`}
             >
               Add Cash
             </button>
@@ -139,7 +158,10 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
       <div className="px-4 mb-6">
         <h3 className="text-xl font-bold text-gray-900 mb-3">About</h3>
         <div className="bg-white rounded-2xl p-4">
-          <p className="text-gray-600">{holding.marketCap}</p>
+          <p className="text-gray-600 mb-2">{holding.marketCap}</p>
+          <p className="text-sm text-gray-500">
+            This is a {holding.isPublic !== false ? 'public' : 'private'} pod
+          </p>
         </div>
       </div>
 
@@ -173,7 +195,7 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
                   </div>
                   <span className="font-semibold text-gray-900">{participant.name}</span>
                 </div>
-                <span className="font-semibold text-green-600">{participant.amount}</span>
+                <span className="font-semibold text-green-600">${participant.amount}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Progress value={participant.progress} className="flex-1" />

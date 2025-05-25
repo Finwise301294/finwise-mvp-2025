@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { JoinSuccessModal } from './JoinSuccessModal';
 import { ShareModal } from './ShareModal';
@@ -16,6 +16,7 @@ interface CoinDetailPageProps {
     color: string;
     memberCount?: number;
     targetAmount?: string;
+    isPublic?: boolean;
   };
   onBack: () => void;
 }
@@ -23,8 +24,18 @@ interface CoinDetailPageProps {
 export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [hasJoined, setHasJoined] = useState(false);
+
+  useEffect(() => {
+    // Check if user has already joined this pod
+    const existingHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
+    const alreadyJoined = existingHoldings.some((h: any) => h.symbol === coin.symbol);
+    setHasJoined(alreadyJoined);
+  }, [coin.symbol]);
 
   const handleJoin = () => {
+    if (hasJoined) return;
+
     // Add to user holdings
     const existingHoldings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
     const newHolding = {
@@ -34,16 +45,14 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
       price: '$0',
       color: coin.color,
       icon: coin.icon,
-      targetAmount: coin.targetAmount || '500'
+      targetAmount: coin.targetAmount || '500',
+      isPublic: coin.isPublic !== false
     };
     
-    // Check if already exists
-    const existingIndex = existingHoldings.findIndex((h: any) => h.symbol === coin.symbol);
-    if (existingIndex === -1) {
-      existingHoldings.push(newHolding);
-      localStorage.setItem('userHoldings', JSON.stringify(existingHoldings));
-    }
+    existingHoldings.push(newHolding);
+    localStorage.setItem('userHoldings', JSON.stringify(existingHoldings));
     
+    setHasJoined(true);
     setShowJoinModal(true);
   };
 
@@ -104,9 +113,14 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
       <div className="px-4 mb-8">
         <button
           onClick={handleJoin}
-          className="w-full bg-green-500 text-white py-4 rounded-3xl font-semibold text-lg"
+          disabled={hasJoined}
+          className={`w-full py-4 rounded-3xl font-semibold text-lg ${
+            hasJoined 
+              ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+              : 'bg-green-500 text-white hover:bg-green-600'
+          }`}
         >
-          Join Pod
+          {hasJoined ? 'Already Joined' : 'Join Pod'}
         </button>
       </div>
 
