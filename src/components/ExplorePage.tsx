@@ -1,13 +1,11 @@
 
 import { useState, useEffect } from 'react';
-import { Plus, ChevronRight } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
-import { FeaturedCard } from './FeaturedCard';
-import { DiscountsCard } from './DiscountsCard';
 import { TotalSavingsCard } from './TotalSavingsCard';
 import { CoinDetailPage } from './CoinDetailPage';
 import { CreatePodPage } from './CreatePodPage';
-import { DiscountsPage } from './DiscountsPage';
+import { StreakModal } from './StreakModal';
 
 interface ExplorePageProps {
   onProfileClick: () => void;
@@ -16,7 +14,7 @@ interface ExplorePageProps {
 export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
   const [selectedCoin, setSelectedCoin] = useState<any>(null);
   const [showCreatePod, setShowCreatePod] = useState(false);
-  const [showDiscounts, setShowDiscounts] = useState(false);
+  const [showStreakModal, setShowStreakModal] = useState(false);
   const [allPods, setAllPods] = useState<any[]>([]);
 
   const defaultCryptos = [
@@ -88,6 +86,8 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
     setAllPods([...defaultCryptos, ...publicPods]);
   }, [showCreatePod]);
 
+  const currentStreak = parseInt(localStorage.getItem('dailyStreak') || '7');
+
   if (selectedCoin) {
     return (
       <CoinDetailPage 
@@ -104,19 +104,13 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
     );
   }
 
-  if (showDiscounts) {
-    return (
-      <DiscountsPage onBack={() => setShowDiscounts(false)} />
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
       {/* Header */}
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onProfileClick} className="w-12 h-12 rounded-full overflow-hidden">
           <img 
-            src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
+            src="/lovable-uploads/e7235b5a-22e7-4077-91eb-bbd62bc89352.png" 
             alt="Profile" 
             className="w-full h-full object-cover"
           />
@@ -124,22 +118,19 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         
         <h1 className="text-2xl font-bold text-gray-900">Home</h1>
         
-        <button onClick={() => setShowCreatePod(true)} className="p-2">
-          <Plus className="w-6 h-6 text-gray-700" />
+        <button onClick={() => setShowStreakModal(true)} className="relative">
+          <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+            <span className="text-2xl">🔥</span>
+          </div>
+          <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+            <span className="text-white text-xs font-bold">{currentStreak}</span>
+          </div>
         </button>
       </div>
 
       {/* Total Savings Card */}
-      <div className="px-4 mb-4">
-        <TotalSavingsCard />
-      </div>
-
-      {/* Featured Cards Grid */}
       <div className="px-4 mb-6">
-        <div className="grid grid-cols-2 gap-4">
-          <FeaturedCard />
-          <DiscountsCard onDiscountsClick={() => setShowDiscounts(true)} />
-        </div>
+        <TotalSavingsCard />
       </div>
 
       {/* Tabs */}
@@ -152,13 +143,26 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       </div>
 
       {/* Crypto List */}
-      <div className="px-4 space-y-3">
+      <div className="px-4 space-y-3 pb-24">
         {allPods.map((crypto, index) => (
           <div key={index} onClick={() => setSelectedCoin(crypto)}>
             <CryptoItem {...crypto} />
           </div>
         ))}
       </div>
+
+      {/* Floating Action Button */}
+      <button
+        onClick={() => setShowCreatePod(true)}
+        className="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full shadow-lg flex items-center justify-center hover:bg-green-600 transition-colors z-50"
+      >
+        <Plus className="w-6 h-6 text-white" />
+      </button>
+
+      {/* Streak Modal */}
+      {showStreakModal && (
+        <StreakModal onClose={() => setShowStreakModal(false)} />
+      )}
     </div>
   );
 };

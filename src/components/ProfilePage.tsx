@@ -4,6 +4,9 @@ import { Settings, ChevronRight, Search, Check } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
 import { AddCashPage } from './AddCashPage';
 import { HoldingDetailPage } from './HoldingDetailPage';
+import { DiscountsCard } from './DiscountsCard';
+import { DiscountsPage } from './DiscountsPage';
+import { SettingsPage } from './SettingsPage';
 
 interface ProfilePageProps {
   onSettingsClick: () => void;
@@ -24,6 +27,8 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
   const [showCashOut, setShowCashOut] = useState(false);
   const [showAddCash, setShowAddCash] = useState(false);
   const [selectedHolding, setSelectedHolding] = useState<Holding | null>(null);
+  const [showDiscounts, setShowDiscounts] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [holdings, setHoldings] = useState<Holding[]>([]);
 
   useEffect(() => {
@@ -52,18 +57,26 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
     return <HoldingDetailPage holding={selectedHolding} onBack={() => setSelectedHolding(null)} />;
   }
 
+  if (showDiscounts) {
+    return <DiscountsPage onBack={() => setShowDiscounts(false)} />;
+  }
+
+  if (showSettings) {
+    return <SettingsPage onBack={() => setShowSettings(false)} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="flex items-center justify-between p-4 pt-12">
-        <button onClick={onSettingsClick} className="p-2">
+        <button onClick={() => setShowSettings(true)} className="p-2">
           <Settings className="w-6 h-6 text-gray-700" />
         </button>
         
         <div className="flex items-center space-x-2">
           <div className="w-12 h-12 rounded-full overflow-hidden relative">
             <img 
-              src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
+              src="/lovable-uploads/e7235b5a-22e7-4077-91eb-bbd62bc89352.png" 
               alt="Profile" 
               className="w-full h-full object-cover"
             />
@@ -81,6 +94,11 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       {/* User Name and Yield */}
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">Joshua Lei</h2>
+      </div>
+
+      {/* Discounts Card */}
+      <div className="px-4 mb-6">
+        <DiscountsCard onDiscountsClick={() => setShowDiscounts(true)} />
       </div>
 
       {/* Tabs */}
