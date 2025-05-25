@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
 import { SuccessModal } from './SuccessModal';
@@ -198,3 +197,4 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
     </div>
   );
 };
+
