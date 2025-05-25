@@ -1,5 +1,5 @@
 
-import { Trophy, Target, Clock } from 'lucide-react';
+import { Trophy, Target } from 'lucide-react';
 
 interface YieldProgressTrackerProps {
   daysLocked: number;
@@ -39,7 +39,6 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
   return (
     <div className="bg-white rounded-2xl p-4 mb-4">
       <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center space-x-2">
-        <Target className="w-5 h-5" />
         <span>Yield Progress</span>
       </h3>
 
@@ -69,10 +68,9 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
       <div className="bg-gray-50 rounded-2xl p-4">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
-            <Clock className="w-4 h-4 text-gray-500" />
             <span className="text-sm text-gray-600">Days Locked</span>
           </div>
-          <span className="font-bold text-gray-900">{daysLocked}</span>
+          <span className="font-bold text-gray-900">{daysLocked} days</span>
         </div>
         
         <div className="flex items-center justify-between mb-2">
