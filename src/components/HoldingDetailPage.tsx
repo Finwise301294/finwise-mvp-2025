@@ -189,17 +189,6 @@ export const HoldingDetailPage = ({ holding, onBack }: HoldingDetailPageProps) =
         />
       </div>
 
-      {/* Pod Details */}
-      <div className="px-4 mb-8">
-        <div className="flex items-center space-x-4 mb-6">
-          <div className={`w-16 h-16 ${holding.color} rounded-full flex items-center justify-center text-white font-bold`}>
-            <span className="text-2xl">{holding.icon}</span>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">{holding.name}</h2>
-          </div>
-        </div>
-      </div>
 
       {/* Target Section */}
       <div className="px-4 mb-6">
