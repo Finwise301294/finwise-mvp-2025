@@ -95,7 +95,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
         {/* Goal Name */}
         <div>
           <label className="block text-lg font-semibold text-gray-900 mb-3">
-            Goal Name
+            Name
           </label>
           <input
             type="text"
@@ -115,7 +115,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
             type="number"
             value={targetAmount}
             onChange={(e) => setTargetAmount(e.target.value)}
-            placeholder="Enter target amount..."
+            placeholder="How much do you want to save..."
             className="w-full p-4 border border-gray-300 rounded-2xl text-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           />
         </div>
