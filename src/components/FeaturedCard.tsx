@@ -12,7 +12,7 @@ export const FeaturedCard = () => {
       </div>
       
       <h3 className="text-2xl font-bold text-gray-900 mb-2">Daily Streak</h3>
-      <p className="text-amber-600 font-semibold text-lg">3 more days to unlock a new discount</p>
+      <p className="text-amber-600 font-semibold text-small">3 more days to unlock a new discount!</p>
     </div>
   );
 };
