@@ -128,7 +128,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe your goal and why others should join..."
+            placeholder="Describe your goal briefly..."
             className="w-full p-4 border border-gray-300 rounded-2xl text-lg min-h-32 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
           />
         </div>
