@@ -137,7 +137,7 @@ export const CoinDetailPage = ({ coin, onBack, onProfileRedirect }: CoinDetailPa
           className={`w-full py-4 rounded-3xl font-semibold text-lg ${
             hasJoined 
               ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
-              : 'bg-green-500 text-white hover:bg-green-600'
+              : 'bg-primary text-white hover:bg-purple-600'
           }`}
         >
           {hasJoined ? 'Joined' : 'Join'}
