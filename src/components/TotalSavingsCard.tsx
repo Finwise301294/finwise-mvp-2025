@@ -5,13 +5,8 @@ export const TotalSavingsCard = () => {
   const [totalSavings, setTotalSavings] = useState(0);
 
   useEffect(() => {
-    // Calculate total savings from all user holdings
-    const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
-    const total = holdings.reduce((sum: number, holding: any) => {
-      const amount = parseFloat(holding.price.replace('$', '')) || 0;
-      return sum + amount;
-    }, 0);
-    setTotalSavings(total);
+    // Always show $0 for testing - reset on each load
+    setTotalSavings(0);
   }, []);
 
   return (

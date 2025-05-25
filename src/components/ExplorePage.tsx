@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { CryptoItem } from './CryptoItem';
-import { TotalSavingsCard } from './TotalSavingsCard';
 import { CoinDetailPage } from './CoinDetailPage';
 import { CreatePodPage } from './CreatePodPage';
 import { StreakModal } from './StreakModal';
@@ -19,9 +18,9 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
 
   const defaultCryptos = [
     {
-      name: "Concert Fund",
-      symbol: "LC",
-      marketCap: "Save for concert tickets",
+      name: "Concert Tickets",
+      symbol: "CT",
+      marketCap: "Save for your favorite artist",
       price: "",
       color: "bg-green-500",
       icon: "🎤",
@@ -29,19 +28,19 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       targetAmount: "300"
     },
     {
-      name: "House Down Payment", 
-      symbol: "DUPE",
-      marketCap: "Save for future home",
+      name: "Dream Vacation", 
+      symbol: "DV",
+      marketCap: "Save for travel adventures",
       price: "",
       color: "bg-cyan-400",
-      icon: "🏠",
+      icon: "✈️",
       memberCount: 8,
-      targetAmount: "5000"
+      targetAmount: "1200"
     },
     {
-      name: "Phone Upgrade",
-      symbol: "YAP", 
-      marketCap: "Save for new phone",
+      name: "New iPhone",
+      symbol: "IP", 
+      marketCap: "Save for latest tech",
       price: "",
       color: "bg-pink-400",
       icon: "📱",
@@ -51,7 +50,7 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
     {
       name: "Emergency Fund",
       symbol: "EF",
-      marketCap: "Build emergency savings", 
+      marketCap: "Build your safety net", 
       price: "",
       color: "bg-gradient-to-r from-blue-400 to-cyan-300",
       icon: "🛡️",
@@ -59,24 +58,24 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       targetAmount: "1000"
     },
     {
-      name: "Travel Adventure",
-      symbol: "CB",
-      marketCap: "Save for dream vacation",
+      name: "First Car",
+      symbol: "FC",
+      marketCap: "Save for your ride",
       price: "",
       color: "bg-orange-500",
-      icon: "✈️",
+      icon: "🚗",
       memberCount: 6,
-      targetAmount: "1200"
+      targetAmount: "2500"
     },
     {
-      name: "Car Fund",
-      symbol: "GIG",
-      marketCap: "Save for first car",
+      name: "Gaming Setup",
+      symbol: "GS",
+      marketCap: "Build the ultimate setup",
       price: "",
       color: "bg-gradient-to-r from-green-400 to-blue-500",
-      icon: "🚗",
+      icon: "🎮",
       memberCount: 19,
-      targetAmount: "2500"
+      targetAmount: "1500"
     }
   ];
 
@@ -119,22 +118,15 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
         <h1 className="text-2xl font-bold text-gray-900">Home</h1>
         
         <button onClick={() => setShowStreakModal(true)} className="relative">
-          <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-            <span className="text-2xl">🔥</span>
-          </div>
-          <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-xs font-bold">{currentStreak}</span>
+          <div className="bg-orange-100 rounded-2xl px-4 py-2 flex items-center space-x-2">
+            <span className="text-xl">🔥</span>
+            <span className="text-orange-600 font-bold text-lg">{currentStreak}</span>
           </div>
         </button>
       </div>
 
-      {/* Total Savings Card */}
-      <div className="px-4 mb-6">
-        <TotalSavingsCard />
-      </div>
-
       {/* Tabs */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-4 mt-6">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
             Pods
