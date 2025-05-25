@@ -158,7 +158,7 @@ export const ProfilePage = ({ onSettingsClick, onExploreClick }: ProfilePageProp
       <div className="px-4 mb-6">
         <div className="flex space-x-8">
           <button className="text-lg font-semibold text-gray-900 border-b-2 border-gray-900 pb-1">
-            My pods
+            My goals
           </button>
         </div>
       </div>
