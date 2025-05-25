@@ -120,7 +120,7 @@ export const CoinDetailPage = ({ coin, onBack }: CoinDetailPageProps) => {
               : 'bg-green-500 text-white hover:bg-green-600'
           }`}
         >
-          {hasJoined ? 'Already Joined' : 'Join Pod'}
+          {hasJoined ? 'Joined' : 'Join'}
         </button>
       </div>
 
