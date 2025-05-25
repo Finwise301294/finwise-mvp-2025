@@ -70,7 +70,7 @@ export const YieldProgressTracker = ({ daysLocked, targetDays, currentAmount, ta
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600">Days Locked</span>
           </div>
-          <span className="font-bold text-gray-900">{daysLocked}</span>
+          <span className="font-bold text-gray-900">{daysLocked} days</span>
         </div>
         
         <div className="flex items-center justify-between mb-2">
