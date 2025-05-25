@@ -109,13 +109,13 @@ export const ExplorePage = ({ onProfileClick }: ExplorePageProps) => {
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onProfileClick} className="w-12 h-12 rounded-full overflow-hidden">
           <img 
-            src="/lovable-uploads/e7235b5a-22e7-4077-91eb-bbd62bc89352.png" 
+            src="/lovable-uploads/7179a805-1e9a-4986-bf99-5e78cc2b0caa.png" 
             alt="Profile" 
             className="w-full h-full object-cover"
           />
         </button>
         
-        <h1 className="text-2xl font-bold text-gray-900">Home</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Explore</h1>
         
         <button onClick={() => setShowStreakModal(true)} className="relative">
           <div className="bg-orange-100 rounded-2xl px-4 py-2 flex items-center space-x-2">
