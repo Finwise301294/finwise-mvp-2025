@@ -38,7 +38,7 @@ export const FeedbackModal = ({
           
           <div className="flex space-x-3">
             
-            <button type="submit" disabled={!feedback.trim() || isSubmitting} className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-2xl font-semibold hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+            <button type="submit" disabled={!feedback.trim() || isSubmitting} className="w-full bg-green-500 text-white py-4 rounded-2xl font-semibold text-lg flex items-center justify-center space-x-2 hover:bg-green-600 transition-colors">
               {isSubmitting ? 'Sending...' : 'Send Feedback'}
             </button>
           </div>
