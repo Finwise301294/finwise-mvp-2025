@@ -81,7 +81,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen pb-8 bg-gray-50">
       {/* Header */}
       <div className="flex items-center justify-between p-4 pt-12">
         <button onClick={onBack} className="p-2">
@@ -174,7 +174,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
         {/* Create Button */}
         <button
           onClick={handleCreatePod}
-          className="w-full bg-gray-900 text-white pt-4 pb-8 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
+          className="w-full bg-gray-900 text-white py-4 rounded-2xl font-semibold text-lg hover:bg-gray-800 transition-colors"
         >
           Create Pod
         </button>
