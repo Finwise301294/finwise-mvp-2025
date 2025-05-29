@@ -4,6 +4,7 @@ import { ChevronLeft, Copy } from 'lucide-react';
 import { Switch } from './ui/switch';
 import { Textarea } from './ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { SuccessModal } from './SuccessModal';
 
 interface CreatePodPageProps {
   onBack: () => void;
@@ -14,6 +15,7 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
   const [description, setDescription] = useState('');
   const [targetAmount, setTargetAmount] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { toast } = useToast();
   
   const shareLink = "https://pods.app/create/new123";
@@ -72,11 +74,11 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
       localStorage.setItem('publicPods', JSON.stringify(existingPublicPods));
     }
 
-    toast({
-      title: "Success!",
-      description: "Pod created successfully",
-    });
+    setShowSuccessModal(true);
+  };
 
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
     onBack();
   };
 
@@ -179,6 +181,14 @@ export const CreatePodPage = ({ onBack }: CreatePodPageProps) => {
           Create Goal
         </button>
       </div>
+
+      {showSuccessModal && (
+        <SuccessModal 
+          title="Goal Created!"
+          message="Your goal has been created successfully. Start saving and reach your target!"
+          onClose={handleSuccessModalClose}
+        />
+      )}
     </div>
   );
 };
