@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronLeft, Share2 } from 'lucide-react';
 import { CashOutPage } from './CashOutPage';
@@ -107,11 +106,16 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
   };
 
   const handleCashOut = (amount: number) => {
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const hasReachedGoal = currentSavings >= targetAmount;
     const newAmount = Math.max(0, currentSavings - amount);
     setCurrentSavings(newAmount);
     updateHoldingInStorage(newAmount);
-    // Reset yield and days when cashing out
-    setDaysLocked(0);
+    
+    // Only reset yield and days if goal hasn't been reached
+    if (!hasReachedGoal) {
+      setDaysLocked(0);
+    }
   };
 
   const handleAddCash = (amount: number) => {
@@ -180,7 +184,7 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
         <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-5xl font-bold">${totalAmount.toFixed(2)}</div>
+              <div className="text-5xl font-bold">${Math.floor(totalAmount)}</div>
               <div className="text-lg opacity-90 mt-2">Total Amount</div>
               <div className="text-sm opacity-75 mt-1">
                 ${currentSavings.toFixed(2)} savings + ${yieldEarned.toFixed(2)} yield
