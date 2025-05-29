@@ -46,7 +46,18 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
 
   // Mock yield data - would come from backend in real implementation
   const [daysLocked, setDaysLocked] = useState(12); // Example: 12 days locked
-  const [yieldEarned, setYieldEarned] = useState(2.45); // Example yield earned
+
+  // Calculate yield based on current savings and APY
+  const getYieldRate = (days: number) => {
+    if (days < 8) return 0;
+    if (days < 15) return 1;
+    if (days < 30) return 3;
+    return 6;
+  };
+
+  const currentAPY = getYieldRate(daysLocked);
+  const yieldEarned = (currentSavings * currentAPY) / 100; // Simple APY calculation for display
+  const totalAmount = currentSavings + yieldEarned;
 
   const updateHoldingInStorage = (newAmount: number) => {
     const holdings = JSON.parse(localStorage.getItem('userHoldings') || '[]');
@@ -100,7 +111,6 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
     setCurrentSavings(newAmount);
     updateHoldingInStorage(newAmount);
     // Reset yield and days when cashing out
-    setYieldEarned(0);
     setDaysLocked(0);
   };
 
@@ -146,7 +156,6 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
   const targetAmount = parseInt(holding.targetAmount || '500');
   const hasReachedGoal = currentSavings >= targetAmount;
   const leaderboardData = generateLeaderboard(targetAmount);
-  const projectedYield = (targetAmount * 0.06 * (daysLocked + (targetAmount - currentSavings) / 10)) / 365; // Rough calculation
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -171,8 +180,11 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
         <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-3xl p-6 text-white">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-5xl font-bold">${currentSavings}</div>
-              <div className="text-lg opacity-90 mt-2">Total Savings</div>
+              <div className="text-5xl font-bold">${totalAmount.toFixed(2)}</div>
+              <div className="text-lg opacity-90 mt-2">Total Amount</div>
+              <div className="text-sm opacity-75 mt-1">
+                ${currentSavings.toFixed(2)} savings + ${yieldEarned.toFixed(2)} yield
+              </div>
               {hasReachedGoal && (
                 <div className="text-sm opacity-90 mt-1">🎉 Goal Reached!</div>
               )}
