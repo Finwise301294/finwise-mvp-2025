@@ -131,6 +131,10 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
   };
 
   if (showCashOut) {
+    const targetAmount = parseInt(holding.targetAmount || '500');
+    const hasReachedGoal = currentSavings >= targetAmount;
+    const availableForCashOut = hasReachedGoal ? totalAmount : currentSavings;
+    
     return (
       <CashOutPage 
         onClose={() => {
@@ -138,7 +142,7 @@ export const HoldingDetailPage = ({ holding, onBack, onUpdate }: HoldingDetailPa
           loadCurrentSavings(); // Refresh data when closing
         }}
         onCashOut={handleCashOut}
-        availableAmount={currentSavings}
+        availableAmount={availableForCashOut}
       />
     );
   }
