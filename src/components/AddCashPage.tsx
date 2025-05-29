@@ -1,6 +1,6 @@
+
 import { useState } from 'react';
 import { X, ChevronRight } from 'lucide-react';
-import { SuccessModal } from './SuccessModal';
 
 interface AddCashPageProps {
   onClose: () => void;
@@ -12,7 +12,6 @@ interface AddCashPageProps {
 export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmount = 0 }: AddCashPageProps) => {
   const [amount, setAmount] = useState('0');
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
 
   const maxAllowedAmount = targetAmount - currentAmount;
@@ -56,16 +55,11 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
       setIsSliding(false);
       if (onAddCash && finalAmount > 0) {
         onAddCash(finalAmount);
-        setShowSuccessModal(true);
+        onClose(); // Redirect back to holding detail page immediately
       } else {
         onClose();
       }
     }, 1000);
-  };
-
-  const handleSuccessClose = () => {
-    setShowSuccessModal(false);
-    onClose();
   };
 
   const currentAmountValue = parseFloat(amount) || 0;
@@ -181,14 +175,6 @@ export const AddCashPage = ({ onClose, onAddCash, targetAmount = 500, currentAmo
           </div>
         </div>
       </div>
-
-      {showSuccessModal && (
-        <SuccessModal 
-          title="Cash Added Successfully!"
-          message={`You've added $${Math.min(currentAmountValue, maxAllowedAmount)} to your savings`}
-          onClose={handleSuccessClose}
-        />
-      )}
     </div>
   );
 };
